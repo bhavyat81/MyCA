@@ -9,6 +9,7 @@ final class Store {
     var hstRegistered: Bool = true
     var mileageRate: Double = 0.72
     var homeOffices: [HomeOffice] = []
+    var businessHSTRates: [String: Double] = [:]
 
     // MARK: - Rosters
     var employees: [Employee] = []
@@ -189,12 +190,14 @@ final class Store {
     func saveMileage()        { saveJSON(mileageEntries, forKey: "myca.v2.mileage") }
     func saveRecurringRules() { saveJSON(recurringRules, forKey: "myca.v2.recurring") }
     func saveHomeOffices()    { saveJSON(homeOffices,   forKey: "myca.v2.homeOffices") }
+    func saveBusinessHSTRates() { saveDictionary(businessHSTRates, forKey: "myca.v2.businessHSTRates") }
 
     func saveSettings() {
         UserDefaults.standard.set(selectedTheme.rawValue, forKey: "myca.theme")
         UserDefaults.standard.set(hstRate,           forKey: "myca.hstRate")
         UserDefaults.standard.set(hstRegistered,     forKey: "myca.hstRegistered")
         UserDefaults.standard.set(mileageRate,       forKey: "myca.mileageRate")
+        saveBusinessHSTRates()
     }
 
     func resetAllData() {
@@ -204,7 +207,17 @@ final class Store {
         employees = []; categories = Category.defaults
         vendors = []; clients = []; invoices = []
         mileageEntries = []; recurringRules = []; homeOffices = []
+        businessHSTRates = [:]
         salariesCache = [:]; expensesCache = [:]; revenuesCache = [:]
+    }
+
+    func hstRate(for businessId: String) -> Double {
+        businessHSTRates[businessId] ?? hstRate
+    }
+
+    func setHstRate(_ rate: Double, for businessId: String) {
+        businessHSTRates[businessId] = rate
+        saveBusinessHSTRates()
     }
 
     // MARK: - Private
@@ -224,6 +237,7 @@ final class Store {
         mileageEntries = loadJSON(forKey: "myca.v2.mileage")
         recurringRules = loadJSON(forKey: "myca.v2.recurring")
         homeOffices    = loadJSON(forKey: "myca.v2.homeOffices")
+        businessHSTRates = loadDictionary(forKey: "myca.v2.businessHSTRates")
 
         let loadedCats: [Category] = loadJSON(forKey: "myca.v2.categories")
         if !loadedCats.isEmpty { categories = loadedCats }
@@ -243,6 +257,20 @@ final class Store {
     }
 
     private func saveJSON<T: Encodable>(_ value: T, forKey key: String) {
+        if let data = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(data, forKey: key)
+        }
+    }
+
+    private func loadDictionary(forKey key: String) -> [String: Double] {
+        guard let data = UserDefaults.standard.data(forKey: key),
+              let value = try? JSONDecoder().decode([String: Double].self, from: data) else {
+            return [:]
+        }
+        return value
+    }
+
+    private func saveDictionary(_ value: [String: Double], forKey key: String) {
         if let data = try? JSONEncoder().encode(value) {
             UserDefaults.standard.set(data, forKey: key)
         }

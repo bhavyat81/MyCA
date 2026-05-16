@@ -86,6 +86,11 @@ struct AddRevenueView: View {
             }
             .navigationTitle(existing == nil ? "Add Revenue" : "Edit Revenue")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                if existing == nil {
+                    hstRateText = String(Int(store.hstRate(for: businessId) * 100))
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

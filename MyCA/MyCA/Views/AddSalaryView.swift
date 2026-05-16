@@ -8,6 +8,7 @@ struct AddSalaryView: View {
     let businessId: String
     let onSave: (SalaryEntry) -> Void
 
+    @State private var paymentType: PaymentType
     @State private var name: String
     @State private var hoursText: String
     @State private var rateText: String
@@ -18,20 +19,19 @@ struct AddSalaryView: View {
         self.existing = existing
         self.businessId = businessId
         self.onSave = onSave
-        _name      = State(initialValue: existing?.name ?? "")
+        _paymentType = State(initialValue: existing?.paymentType ?? .contract)
+        _name = State(initialValue: existing?.name ?? "")
         _hoursText = State(initialValue: existing.map { String($0.hours) } ?? "")
-        _rateText  = State(initialValue: existing.map { String($0.payRate) } ?? "")
+        _rateText = State(initialValue: existing.map { String($0.payRate) } ?? "")
         _bonusText = State(initialValue: existing.map { String($0.bonus) } ?? "")
-        _notes     = State(initialValue: existing?.notes ?? "")
+        _notes = State(initialValue: existing?.notes ?? "")
     }
 
-    private var hours:   Double { Double(hoursText) ?? 0 }
-    private var payRate: Double { Double(rateText)  ?? 0 }
-    private var bonus:   Double { Double(bonusText) ?? 0 }
-
-    private var payroll: PayrollResult {
-        Payroll.calculate(hours: hours, rate: payRate, bonus: bonus)
-    }
+    private var hours: Double { Double(hoursText) ?? 0 }
+    private var payRate: Double { Double(rateText) ?? 0 }
+    private var bonus: Double { Double(bonusText) ?? 0 }
+    private var gross: Double { hours * payRate + bonus }
+    private var payroll: PayrollResult { Payroll.calculate(hours: hours, rate: payRate, bonus: bonus) }
 
     var body: some View {
         NavigationStack {
@@ -41,8 +41,16 @@ struct AddSalaryView: View {
                     .ignoresSafeArea()
 
                 Form {
-                    Section {
-                        TextField("Employee Name", text: $name)
+                    Section("Payment Type") {
+                        Picker("Payment Type", selection: $paymentType) {
+                            Text("Contract").tag(PaymentType.contract)
+                            Text("Payroll").tag(PaymentType.payroll)
+                        }
+                        .pickerStyle(.segmented)
+                    }
+
+                    Section("Details") {
+                        TextField("Name", text: $name)
                             .foregroundStyle(.primary)
                         TextField("Hours", text: $hoursText)
                             .keyboardType(.decimalPad)
@@ -53,23 +61,35 @@ struct AddSalaryView: View {
                         TextField("Bonus", text: $bonusText)
                             .keyboardType(.decimalPad)
                             .foregroundStyle(.primary)
-                        TextField("Notes", text: $notes)
-                            .foregroundStyle(.primary)
-                    } header: {
-                        Text("Employee Details")
+                        DisclosureGroup("More options") {
+                            TextField("Notes", text: $notes)
+                                .foregroundStyle(.primary)
+                        }
                     }
 
                     if hours > 0 && payRate > 0 {
                         Section {
-                            PayrollBreakdownRow(label: "Gross Pay",  value: payroll.gross,  color: .primary)
-                            PayrollBreakdownRow(label: "CPP",        value: -payroll.cpp,   color: .orange)
-                            PayrollBreakdownRow(label: "EI",         value: -payroll.ei,    color: .yellow)
-                            PayrollBreakdownRow(label: "Federal Tax",value: -payroll.fedTax,color: .red)
-                            PayrollBreakdownRow(label: "ON Tax",     value: -payroll.onTax, color: .red)
-                            Divider()
-                            PayrollBreakdownRow(label: "Net Pay",    value: payroll.net,    color: .green, bold: true)
+                            if paymentType == .contract {
+                                HStack {
+                                    Text("Pay")
+                                        .font(.headline)
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Text(Theme.currency(gross))
+                                        .font(.title3.weight(.bold))
+                                        .foregroundStyle(.green)
+                                }
+                            } else {
+                                PayrollBreakdownRow(label: "Gross Pay", value: payroll.gross, color: .primary)
+                                PayrollBreakdownRow(label: "CPP", value: -payroll.cpp, color: .orange)
+                                PayrollBreakdownRow(label: "EI", value: -payroll.ei, color: .yellow)
+                                PayrollBreakdownRow(label: "Federal Tax", value: -payroll.fedTax, color: .red)
+                                PayrollBreakdownRow(label: "ON Tax", value: -payroll.onTax, color: .red)
+                                Divider()
+                                PayrollBreakdownRow(label: "Net Pay", value: payroll.net, color: .green, bold: true)
+                            }
                         } header: {
-                            Text("CRA 2025 Payroll Breakdown")
+                            Text(paymentType == .contract ? "Total" : "CRA 2025 Payroll Breakdown")
                         }
                     }
                 }
@@ -85,16 +105,16 @@ struct AddSalaryView: View {
                     Button("Save") {
                         var entry = existing ?? SalaryEntry(businessId: businessId, name: "", hours: 0, payRate: 0)
                         entry.businessId = businessId
-                        entry.name    = name.trimmingCharacters(in: .whitespacesAndNewlines)
-                        entry.hours   = hours
+                        entry.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                        entry.paymentType = paymentType
+                        entry.hours = hours
                         entry.payRate = payRate
-                        entry.bonus   = bonus
-                        entry.notes   = notes.isEmpty ? nil : notes
+                        entry.bonus = bonus
+                        entry.notes = notes.isEmpty ? nil : notes
                         onSave(entry)
                         dismiss()
                     }
-                    .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                              || hours <= 0 || payRate <= 0)
+                    .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || hours <= 0 || payRate <= 0)
                 }
             }
         }
@@ -119,4 +139,3 @@ private struct PayrollBreakdownRow: View {
         }
     }
 }
-
