@@ -121,6 +121,11 @@ struct AddExpenseView: View {
             }
             .navigationTitle(existing == nil ? "Add Expense" : "Edit Expense")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                if existing == nil {
+                    hstRateText = String(Int(store.hstRate(for: businessId) * 100))
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
@@ -146,4 +151,3 @@ struct AddExpenseView: View {
         }
     }
 }
-

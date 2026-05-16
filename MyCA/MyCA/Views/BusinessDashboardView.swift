@@ -2,7 +2,6 @@ import SwiftUI
 
 struct BusinessDashboardView: View {
     let business: Business
-    @Environment(Store.self) private var store
     @State private var month: Int
     @State private var year: Int
 
@@ -10,18 +9,21 @@ struct BusinessDashboardView: View {
         self.business = business
         let now = Date()
         _month = State(initialValue: Calendar.current.component(.month, from: now))
-        _year  = State(initialValue: Calendar.current.component(.year, from: now))
+        _year = State(initialValue: Calendar.current.component(.year, from: now))
     }
+
+    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         GradientBackground {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.spacingM) {
-                    HStack {
-                        Text(business.emoji).font(.system(size: 36))
-                        VStack(alignment: .leading) {
+                    HStack(spacing: Theme.spacingS) {
+                        Text(business.emoji)
+                            .font(.system(size: 44))
+                        VStack(alignment: .leading, spacing: 2) {
                             Text(business.name)
-                                .font(Theme.titleFont(size: 28))
+                                .font(Theme.titleFont(size: 30))
                                 .foregroundStyle(.white)
                             Text(business.address)
                                 .foregroundStyle(.white.opacity(0.85))
@@ -32,29 +34,57 @@ struct BusinessDashboardView: View {
                         MonthSelector(month: $month, year: $year)
                     }
 
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                        StatCard(title: "Revenue",
-                                 value: Theme.currency(store.totalRevenue(businessId: business.id, year: year, month: month)),
-                                 symbol: "dollarsign.circle.fill", tint: .green)
-                        StatCard(title: "Salaries",
-                                 value: Theme.currency(store.totalSalaries(businessId: business.id, year: year, month: month)),
-                                 symbol: "person.2.fill", tint: .purple)
-                        StatCard(title: "Expenses",
-                                 value: Theme.currency(store.totalExpenses(businessId: business.id, year: year, month: month)),
-                                 symbol: "cart.fill", tint: .orange)
-                        let net = store.netProfit(businessId: business.id, year: year, month: month)
-                        StatCard(title: "Net Profit",
-                                 value: Theme.currency(net),
-                                 symbol: net >= 0 ? "arrow.up.circle.fill" : "arrow.down.circle.fill",
-                                 tint: net >= 0 ? .green : .red,
-                                 isNegative: net < 0)
+                    LazyVGrid(columns: columns, spacing: 12) {
+                        hubTile(title: "Revenue", emoji: "💵") {
+                            RevenueView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Salary", emoji: "👥") {
+                            SalaryView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Expenses", emoji: "🧾") {
+                            ExpenseView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Mileage", emoji: "🚗") {
+                            MileageView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Invoices", emoji: "🧾") {
+                            InvoiceListView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Reports", emoji: "📊") {
+                            ReportsView(business: business, year: year, month: month)
+                        }
+                        hubTile(title: "Settings", emoji: "⚙️") {
+                            BusinessSettingsView(business: business)
+                        }
                     }
                 }
                 .padding(Theme.spacingL)
             }
         }
-        .navigationTitle("Dashboard")
+        .navigationTitle("Business Hub")
         .navigationBarTitleDisplayMode(.inline)
     }
-}
 
+    private func hubTile<Destination: View>(
+        title: String,
+        emoji: String,
+        @ViewBuilder destination: @escaping () -> Destination
+    ) -> some View {
+        NavigationLink {
+            destination()
+        } label: {
+            GlassCard {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(emoji)
+                        .font(.system(size: 32))
+                    Text(title)
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(.primary)
+                    Spacer(minLength: 0)
+                }
+                .frame(maxWidth: .infinity, minHeight: 150, alignment: .leading)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}

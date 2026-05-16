@@ -13,7 +13,13 @@ Native iOS app (SwiftUI) for personal CA work.
 - Add your Apple Developer team in Signing & Capabilities
 
 ## Features
-- Select business: Planet Rehab (200 County Court, Brampton), 83 Kennedy, Meltwich
-- Salary tracker: name + hours + pay rate, auto totals, per month
+- Business-first launch flow: starts on Business List (Planet Rehab, 83 Kennedy, Meltwich)
+- Tap a business to open its Business Hub with month/year selector and tiles:
+  Revenue, Salary, Expenses, Mileage, Invoices, Reports, Settings
+- Global app settings available from the gear icon on the Business List screen
+- Salary tracker supports Contract vs Payroll:
+  - Contract: full gross pay (no CPP/EI/tax deductions)
+  - Payroll: CPP/EI/Federal/ON deductions and net pay breakdown
+- Existing stored salary entries safely default to Contract during decode migration
 - Expense calculator: custom expenses, per-month totals
 - Local persistence via UserDefaults

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BusinessListView: View {
     @Environment(Store.self) private var store
+    @State private var showingGlobalSettings = false
 
     var body: some View {
         GradientBackground {
@@ -51,6 +52,22 @@ struct BusinessListView: View {
                 BusinessDashboardView(business: business)
                     .environment(store)
             }
+            .navigationTitle("Businesses")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        showingGlobalSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingGlobalSettings) {
+                NavigationStack {
+                    GlobalSettingsView()
+                        .environment(store)
+                }
+            }
         }
     }
 }
@@ -61,4 +78,3 @@ struct BusinessListView: View {
             .environment(Store())
     }
 }
-

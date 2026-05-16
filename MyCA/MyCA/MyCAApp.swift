@@ -6,7 +6,9 @@ struct MyCAApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            NavigationStack {
+                BusinessListView()
+            }
                 .environment(store)
                 .onAppear {
                     let now = Date()

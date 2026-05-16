@@ -4,11 +4,28 @@ struct InvoiceListView: View {
     @Environment(Store.self) private var store
     @State private var showingEditor = false
     @State private var editingInvoice: Invoice?
-    @State private var selectedBusinessId: String? = nil
+    let business: Business?
+    let year: Int?
+    let month: Int?
+    @State private var selectedBusinessId: String?
+
+    init(business: Business? = nil, year: Int? = nil, month: Int? = nil) {
+        self.business = business
+        self.year = year
+        self.month = month
+        _selectedBusinessId = State(initialValue: business?.id)
+    }
+
+    private var activeBizId: String {
+        business?.id ?? selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab"
+    }
 
     private var filtered: [Invoice] {
-        guard let bid = selectedBusinessId else { return store.invoices }
-        return store.invoices.filter { $0.businessId == bid }
+        store.invoices.filter {
+            $0.businessId == activeBizId
+                && (year == nil || Calendar.current.component(.year, from: $0.date) == year!)
+                && (month == nil || Calendar.current.component(.month, from: $0.date) == month!)
+        }
     }
 
     var body: some View {
@@ -16,13 +33,22 @@ struct InvoiceListView: View {
             LinearGradient(colors: store.selectedTheme.gradientColors,
                            startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
             VStack(spacing: 0) {
-                BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
+                if let year, let month {
+                    AppCard {
+                        HStack {
+                            Text("\(Calendar.current.monthSymbols[month - 1]) \(year)")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
+                    }
                     .padding(16)
+                }
                 if filtered.isEmpty {
                     Spacer()
                     EmptyState(symbol: "doc.text.fill",
-                               title: "No Invoices",
-                               caption: "Tap + to create your first invoice")
+                               title: "No invoices yet.",
+                               caption: "Tap + to add.")
                     Spacer()
                 } else {
                     List {
@@ -74,7 +100,7 @@ struct InvoiceListView: View {
         }
         .sheet(isPresented: $showingEditor) {
             InvoiceEditorView(existing: editingInvoice,
-                              businessId: selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab") { inv in
+                              businessId: activeBizId) { inv in
                 if let idx = store.invoices.firstIndex(where: { $0.id == inv.id }) {
                     store.invoices[idx] = inv
                 } else {
@@ -142,7 +168,7 @@ struct InvoiceEditorView: View {
                         .foregroundStyle(.primary)
                     }
                     Section("Line Items") {
-                        ForEach(items.indices, id: \.self) { idx in
+                        ForEach(Array(items.indices), id: \.self) { idx in
                             VStack(alignment: .leading, spacing: 6) {
                                 TextField("Description", text: $items[idx].detail)
                                     .foregroundStyle(.primary)

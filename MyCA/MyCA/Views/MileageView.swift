@@ -3,11 +3,26 @@ import SwiftUI
 struct MileageView: View {
     @Environment(Store.self) private var store
     @State private var showingAdd = false
-    @State private var selectedBusinessId: String? = nil
+    let business: Business?
+    let year: Int?
+    let month: Int?
+    @State private var selectedBusinessId: String?
+
+    init(business: Business? = nil, year: Int? = nil, month: Int? = nil) {
+        self.business = business
+        self.year = year
+        self.month = month
+        _selectedBusinessId = State(initialValue: business?.id)
+    }
+
+    private var activeBizId: String { business?.id ?? selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
 
     private var filteredEntries: [MileageEntry] {
-        guard let bid = selectedBusinessId else { return store.mileageEntries }
-        return store.mileageEntries.filter { $0.businessId == bid }
+        store.mileageEntries.filter {
+            $0.businessId == activeBizId
+                && (year == nil || Calendar.current.component(.year, from: $0.date) == year!)
+                && (month == nil || Calendar.current.component(.month, from: $0.date) == month!)
+        }
     }
 
     private var totalKm: Double       { filteredEntries.reduce(0) { $0 + $1.km } }
@@ -15,7 +30,16 @@ struct MileageView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
+            if let year, let month {
+                AppCard {
+                    HStack {
+                        Text("\(Calendar.current.monthSymbols[month - 1]) \(year)")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                    }
+                }
+            }
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 StatCard(title: "Total KM",   value: String(format: "%.1f km", totalKm),
@@ -35,8 +59,8 @@ struct MileageView: View {
 
             if filteredEntries.isEmpty {
                 EmptyState(symbol: "car.fill",
-                           title: "No Mileage Logged",
-                           caption: "Tap 'Log Trip' to add your first mileage entry")
+                           title: "No mileage yet.",
+                           caption: "Tap + to add.")
             } else {
                 ForEach(filteredEntries.sorted { $0.date > $1.date }) { entry in
                     GlassCard(padding: 12) {
@@ -65,7 +89,7 @@ struct MileageView: View {
         }
         .padding(.horizontal, 16)
         .sheet(isPresented: $showingAdd) {
-            AddMileageView(businessId: selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab") { entry in
+            AddMileageView(businessId: activeBizId) { entry in
                 store.mileageEntries.append(entry)
                 store.saveMileage()
                 Haptics.success()

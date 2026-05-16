@@ -2,134 +2,154 @@ import SwiftUI
 
 struct SalaryView: View {
     @Environment(Store.self) private var store
-    @State private var selectedBusinessId: String? = nil
-    @State private var month: Int = Calendar.current.component(.month, from: Date())
-    @State private var year: Int  = Calendar.current.component(.year,  from: Date())
+    let business: Business?
+    let year: Int?
+    let month: Int?
+
+    @State private var selectedBusinessId: String?
+    @State private var selectedMonth: Int
+    @State private var selectedYear: Int
     @State private var editingEntry: SalaryEntry?
     @State private var showingAdd = false
     @State private var searchText = ""
 
-    private var activeBizId: String { selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
-    private var activeBiz: Business { Business.all.first { $0.id == activeBizId } ?? Business.all[0] }
+    init(business: Business? = nil, year: Int? = nil, month: Int? = nil) {
+        self.business = business
+        self.year = year
+        self.month = month
+        _selectedBusinessId = State(initialValue: business?.id)
+        _selectedMonth = State(initialValue: month ?? Calendar.current.component(.month, from: Date()))
+        _selectedYear = State(initialValue: year ?? Calendar.current.component(.year, from: Date()))
+    }
+
+    private var activeBizId: String {
+        business?.id ?? selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab"
+    }
+
+    private var activeBizName: String {
+        business?.name ?? Business.all.first(where: { $0.id == activeBizId })?.name ?? "Business"
+    }
 
     private var entries: [SalaryEntry] {
-        let all = store.salaries(businessId: activeBizId, year: year, month: month)
+        let all = store.salaries(businessId: activeBizId, year: selectedYear, month: selectedMonth)
             .sorted { $0.createdAt > $1.createdAt }
         if searchText.isEmpty { return all }
         return all.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
     }
 
-    private var total: Double { entries.reduce(0) { $0 + $1.gross } }
+    private var totalGross: Double { entries.reduce(0) { $0 + $1.gross } }
+    private var payrollEntries: [SalaryEntry] { entries.filter { $0.paymentType == .payroll } }
+    private var totalNetPaid: Double {
+        payrollEntries.reduce(0) {
+            $0 + Payroll.calculate(hours: $1.hours, rate: $1.payRate, bonus: $1.bonus).net
+        }
+    }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                LinearGradient(colors: store.selectedTheme.gradientColors,
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+        ZStack {
+            LinearGradient(colors: store.selectedTheme.gradientColors,
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    // Business picker + month selector
-                    VStack(spacing: 12) {
-                        BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
-                        AppCard { MonthSelector(month: $month, year: $year) }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-
-                    // Total card
-                    GlassCard {
-                        HStack {
-                            Image(systemName: "person.2.fill")
-                                .foregroundStyle(.purple)
-                            Text("Total Salaries")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.primary)
-                            Spacer()
-                            Text(Theme.currency(total))
-                                .font(.headline.weight(.bold))
-                                .foregroundStyle(.primary)
-                                .contentTransition(.numericText())
-                                .animation(.easeInOut(duration: 0.4), value: total)
+            VStack(spacing: 0) {
+                AppCard {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(activeBizName)
+                                .font(.headline)
+                            Text("\(Calendar.current.monthSymbols[selectedMonth - 1]) \(selectedYear)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
+                        Spacer()
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
 
-                    // List
-                    if entries.isEmpty {
-                        Spacer()
-                        EmptyState(symbol: "person.badge.plus",
-                                   title: "No Salaries Yet",
-                                   caption: "Tap + to add your first salary entry")
-                        Spacer()
-                    } else {
-                        List {
-                            ForEach(entries) { entry in
-                                SalaryRowView(entry: entry)
-                                    .listRowBackground(Color.clear)
-                                    .listRowSeparator(.hidden)
-                                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        Button(role: .destructive) {
-                                            Haptics.impact(.medium)
-                                            store.delete(salary: entry, businessId: activeBizId, year: year, month: month)
-                                        } label: { Label("Delete", systemImage: "trash") }
+                if entries.isEmpty {
+                    Spacer()
+                    EmptyState(symbol: "person.badge.plus", title: "No salaries yet.", caption: "Tap + to add.")
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(entries) { entry in
+                            SalaryRowView(entry: entry)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        Haptics.impact(.medium)
+                                        store.delete(salary: entry, businessId: activeBizId, year: selectedYear, month: selectedMonth)
+                                    } label: { Label("Delete", systemImage: "trash") }
 
-                                        Button {
-                                            Haptics.impact(.light)
-                                            editingEntry = entry
-                                            showingAdd = true
-                                        } label: { Label("Edit", systemImage: "pencil") }
-                                            .tint(.gray)
-                                    }
-                                    .swipeActions(edge: .leading) {
-                                        Button {
-                                            Haptics.impact(.light)
-                                            var copy = entry
-                                            copy.id = UUID()
-                                            copy.createdAt = Date()
-                                            store.upsert(salary: copy, businessId: activeBizId, year: year, month: month)
-                                        } label: { Label("Duplicate", systemImage: "doc.on.doc") }
-                                            .tint(.blue)
-                                    }
-                                    .onTapGesture {
+                                    Button {
+                                        Haptics.impact(.light)
                                         editingEntry = entry
                                         showingAdd = true
-                                    }
+                                    } label: { Label("Edit", systemImage: "pencil") }
+                                        .tint(.gray)
+                                }
+                                .onTapGesture {
+                                    editingEntry = entry
+                                    showingAdd = true
+                                }
+                        }
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
+                }
+
+                GlassCard {
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text("Total Gross")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            Text(Theme.currency(totalGross))
+                                .font(.headline.weight(.bold))
+                                .foregroundStyle(.primary)
+                        }
+                        if !payrollEntries.isEmpty {
+                            HStack {
+                                Text("Total Net Paid")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text(Theme.currency(totalNetPaid))
+                                    .font(.headline.weight(.bold))
+                                    .foregroundStyle(.primary)
                             }
                         }
-                        .listStyle(.plain)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.clear)
-                        .refreshable { /* re-read */ }
                     }
                 }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             }
-            .navigationTitle("Salary")
-            .searchable(text: $searchText, prompt: "Search employees…")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        editingEntry = nil
-                        showingAdd = true
-                        Haptics.impact(.medium)
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title3)
-                    }
+        }
+        .navigationTitle("Salary")
+        .searchable(text: $searchText, prompt: "Search employees…")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    editingEntry = nil
+                    showingAdd = true
+                    Haptics.impact(.medium)
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title3)
                 }
             }
-            .sheet(isPresented: $showingAdd) {
-                AddSalaryView(
-                    existing: editingEntry,
-                    businessId: activeBizId
-                ) { entry in
-                    store.upsert(salary: entry, businessId: activeBizId, year: year, month: month)
-                    Haptics.success()
-                }
-                .environment(store)
+        }
+        .sheet(isPresented: $showingAdd) {
+            AddSalaryView(existing: editingEntry, businessId: activeBizId) { entry in
+                store.upsert(salary: entry, businessId: activeBizId, year: selectedYear, month: selectedMonth)
+                Haptics.success()
             }
+            .environment(store)
         }
     }
 }
@@ -149,9 +169,18 @@ private struct SalaryRowView: View {
                     .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(entry.name)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
+                    HStack(spacing: 8) {
+                        Text(entry.name)
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Text(entry.paymentType == .contract ? "Contract" : "Payroll")
+                            .font(.caption2.weight(.semibold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(entry.paymentType == .contract ? Color.gray.opacity(0.2) : Color.purple.opacity(0.2))
+                            .clipShape(Capsule())
+                            .foregroundStyle(entry.paymentType == .contract ? .secondary : .purple)
+                    }
                     Text("\(entry.hours, specifier: "%.1f")h × \(Theme.currency(entry.payRate))/h")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -160,15 +189,16 @@ private struct SalaryRowView: View {
                 Spacer()
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(Theme.currency(payroll.gross))
+                    Text(Theme.currency(entry.gross))
                         .font(.headline.weight(.bold))
                         .foregroundStyle(.primary)
-                    Text("Net: \(Theme.currency(payroll.net))")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                    if entry.paymentType == .payroll {
+                        Text("Net: \(Theme.currency(payroll.net))")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
     }
 }
-

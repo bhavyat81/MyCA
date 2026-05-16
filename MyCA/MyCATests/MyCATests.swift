@@ -3,6 +3,38 @@ import XCTest
 
 final class MyCATests: XCTestCase {}
 
+// MARK: - Salary Entry Migration Tests
+final class SalaryEntryMigrationTests: XCTestCase {
+    func testLegacySalaryEntryDefaultsToContract() throws {
+        let json = """
+        {
+          "id": "11111111-1111-1111-1111-111111111111",
+          "businessId": "planet-rehab",
+          "name": "Alex",
+          "hours": 10,
+          "payRate": 20,
+          "bonus": 0
+        }
+        """.data(using: .utf8)!
+
+        let decoded = try JSONDecoder().decode(SalaryEntry.self, from: json)
+        XCTAssertEqual(decoded.paymentType, .contract)
+    }
+
+    func testPayrollPaymentTypeRoundTrips() throws {
+        let entry = SalaryEntry(
+            businessId: "planet-rehab",
+            name: "Taylor",
+            paymentType: .payroll,
+            hours: 8,
+            payRate: 30
+        )
+        let data = try JSONEncoder().encode(entry)
+        let decoded = try JSONDecoder().decode(SalaryEntry.self, from: data)
+        XCTAssertEqual(decoded.paymentType, .payroll)
+    }
+}
+
 // MARK: - Payroll Tests
 final class PayrollTests: XCTestCase {
     func testZeroHours() {
@@ -128,4 +160,3 @@ final class MileageCalcTests: XCTestCase {
                        150 * MileageCalc.craRate2025, accuracy: 0.01)
     }
 }
-

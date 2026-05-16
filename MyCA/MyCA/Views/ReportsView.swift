@@ -3,46 +3,51 @@ import Charts
 
 struct ReportsView: View {
     @Environment(Store.self) private var store
-    @State private var selectedBusinessId: String? = nil
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
+    let business: Business?
+    let year: Int?
+    let month: Int?
+    @State private var selectedBusinessId: String?
+    @State private var selectedYear: Int
     @State private var selectedTab = 0
 
+    init(business: Business? = nil, year: Int? = nil, month: Int? = nil) {
+        self.business = business
+        self.year = year
+        self.month = month
+        _selectedBusinessId = State(initialValue: business?.id)
+        _selectedYear = State(initialValue: year ?? Calendar.current.component(.year, from: Date()))
+    }
+
     var body: some View {
-        NavigationStack {
-            ZStack {
-                LinearGradient(colors: store.selectedTheme.gradientColors,
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+        ZStack {
+            LinearGradient(colors: store.selectedTheme.gradientColors,
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
+            VStack(spacing: 0) {
+                Picker("Report", selection: $selectedTab) {
+                    Text("Monthly").tag(0)
+                    Text("HST").tag(1)
+                    Text("Year").tag(2)
+                    Text("Mileage").tag(3)
+                    Text("Tax").tag(4)
+                }
+                .pickerStyle(.segmented)
+                .padding(16)
 
-                    Picker("Report", selection: $selectedTab) {
-                        Text("Monthly").tag(0)
-                        Text("HST").tag(1)
-                        Text("Year").tag(2)
-                        Text("Mileage").tag(3)
-                        Text("Tax").tag(4)
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(16)
-
-                    ScrollView {
-                        switch selectedTab {
-                        case 0: MonthlyReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
-                        case 1: HSTReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
-                        case 2: YearReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
-                        case 3: MileageView()
-                        case 4: TaxEstimatorView()
-                        default: EmptyView()
-                        }
+                ScrollView {
+                    switch selectedTab {
+                    case 0: MonthlyReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
+                    case 1: HSTReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
+                    case 2: YearReportView(selectedBusinessId: selectedBusinessId, year: selectedYear)
+                    case 3: MileageView(business: business, year: year, month: month)
+                    case 4: TaxEstimatorView()
+                    default: EmptyView()
                     }
                 }
             }
-            .navigationTitle("Reports")
         }
+        .navigationTitle("Reports")
     }
 }
 
