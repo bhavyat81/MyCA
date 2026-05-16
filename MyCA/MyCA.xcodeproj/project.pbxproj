@@ -1,0 +1,644 @@
+// !$*UTF8*$!
+{
+archiveVersion = 1;
+classes = {
+};
+objectVersion = 56;
+objects = {
+
+/* Begin PBXBuildFile section */
+A10001010000000000000001 /* MyCAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000001 /* MyCAApp.swift */; };
+A10001010000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000002 /* ContentView.swift */; };
+A10001010000000000000003 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000003 /* Theme.swift */; };
+A10001010000000000000004 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000004 /* Business.swift */; };
+A10001010000000000000005 /* SalaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000005 /* SalaryEntry.swift */; };
+A10001010000000000000006 /* ExpenseEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000006 /* ExpenseEntry.swift */; };
+A10001010000000000000007 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000007 /* Storage.swift */; };
+A10001010000000000000008 /* BusinessListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000008 /* BusinessListView.swift */; };
+A10001010000000000000009 /* BusinessDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000009 /* BusinessDashboardView.swift */; };
+A1000101000000000000000A /* SalaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000A /* SalaryView.swift */; };
+A1000101000000000000000B /* AddSalaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000B /* AddSalaryView.swift */; };
+A1000101000000000000000C /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000C /* ExpenseView.swift */; };
+A1000101000000000000000D /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000D /* AddExpenseView.swift */; };
+A1000101000000000000000E /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000E /* GradientBackground.swift */; };
+A1000101000000000000000F /* MonthSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000000F /* MonthSelector.swift */; };
+A10001010000000000000010 /* AppCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000010 /* AppCard.swift */; };
+A10001010000000000000011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000011 /* Assets.xcassets */; };
+A10001010000000000000012 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000012 /* Preview Assets.xcassets */; };
+A10001010000000000000013 /* MyCATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000013 /* MyCATests.swift */; };
+A10001010000000000000014 /* MyCAUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000014 /* MyCAUITests.swift */; };
+A10001010000000000000015 /* MyCAUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000015 /* MyCAUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+A10008010000000000000001 /* PBXContainerItemProxy */ = {
+isa = PBXContainerItemProxy;
+containerPortal = A10000010000000000000001 /* Project object */;
+proxyType = 1;
+remoteGlobalIDString = A10000010000000000000002;
+remoteInfo = MyCA;
+};
+A10008010000000000000002 /* PBXContainerItemProxy */ = {
+isa = PBXContainerItemProxy;
+containerPortal = A10000010000000000000001 /* Project object */;
+proxyType = 1;
+remoteGlobalIDString = A10000010000000000000002;
+remoteInfo = MyCA;
+};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+A10002010000000000000001 /* MyCAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCAApp.swift; sourceTree = "<group>"; };
+A10002010000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+A10002010000000000000003 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+A10002010000000000000004 /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
+A10002010000000000000005 /* SalaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalaryEntry.swift; sourceTree = "<group>"; };
+A10002010000000000000006 /* ExpenseEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseEntry.swift; sourceTree = "<group>"; };
+A10002010000000000000007 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+A10002010000000000000008 /* BusinessListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessListView.swift; sourceTree = "<group>"; };
+A10002010000000000000009 /* BusinessDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDashboardView.swift; sourceTree = "<group>"; };
+A1000201000000000000000A /* SalaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalaryView.swift; sourceTree = "<group>"; };
+A1000201000000000000000B /* AddSalaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSalaryView.swift; sourceTree = "<group>"; };
+A1000201000000000000000C /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
+A1000201000000000000000D /* AddExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseView.swift; sourceTree = "<group>"; };
+A1000201000000000000000E /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
+A1000201000000000000000F /* MonthSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelector.swift; sourceTree = "<group>"; };
+A10002010000000000000010 /* AppCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCard.swift; sourceTree = "<group>"; };
+A10002010000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+A10002010000000000000012 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+A10002010000000000000013 /* MyCATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCATests.swift; sourceTree = "<group>"; };
+A10002010000000000000014 /* MyCAUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCAUITests.swift; sourceTree = "<group>"; };
+A10002010000000000000015 /* MyCAUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCAUITestsLaunchTests.swift; sourceTree = "<group>"; };
+A10002010000000000000016 /* MyCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+A10002010000000000000017 /* MyCATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+A10002010000000000000018 /* MyCAUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCAUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+A10005010000000000000001 /* Frameworks */ = {
+isa = PBXFrameworksBuildPhase;
+buildActionMask = 2147483647;
+files = (
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10005010000000000000002 /* Frameworks */ = {
+isa = PBXFrameworksBuildPhase;
+buildActionMask = 2147483647;
+files = (
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10005010000000000000003 /* Frameworks */ = {
+isa = PBXFrameworksBuildPhase;
+buildActionMask = 2147483647;
+files = (
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+A10003010000000000000001 = {
+isa = PBXGroup;
+children = (
+A10003010000000000000002 /* MyCA */,
+A1000301000000000000000B /* MyCATests */,
+A1000301000000000000000C /* MyCAUITests */,
+A1000301000000000000000D /* Products */,
+);
+sourceTree = "<group>";
+};
+A10003010000000000000002 /* MyCA */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000001 /* MyCAApp.swift */,
+A10002010000000000000002 /* ContentView.swift */,
+A10003010000000000000003 /* Theme */,
+A10003010000000000000004 /* Models */,
+A10003010000000000000005 /* Storage */,
+A10003010000000000000006 /* Views */,
+A10002010000000000000011 /* Assets.xcassets */,
+A1000301000000000000000A /* Preview Content */,
+);
+path = MyCA;
+sourceTree = "<group>";
+};
+A10003010000000000000003 /* Theme */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000003 /* Theme.swift */,
+);
+path = Theme;
+sourceTree = "<group>";
+};
+A10003010000000000000004 /* Models */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000004 /* Business.swift */,
+A10002010000000000000005 /* SalaryEntry.swift */,
+A10002010000000000000006 /* ExpenseEntry.swift */,
+);
+path = Models;
+sourceTree = "<group>";
+};
+A10003010000000000000005 /* Storage */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000007 /* Storage.swift */,
+);
+path = Storage;
+sourceTree = "<group>";
+};
+A10003010000000000000006 /* Views */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000008 /* BusinessListView.swift */,
+A10002010000000000000009 /* BusinessDashboardView.swift */,
+A1000201000000000000000A /* SalaryView.swift */,
+A1000201000000000000000B /* AddSalaryView.swift */,
+A1000201000000000000000C /* ExpenseView.swift */,
+A1000201000000000000000D /* AddExpenseView.swift */,
+A10003010000000000000007 /* Components */,
+);
+path = Views;
+sourceTree = "<group>";
+};
+A10003010000000000000007 /* Components */ = {
+isa = PBXGroup;
+children = (
+A1000201000000000000000E /* GradientBackground.swift */,
+A1000201000000000000000F /* MonthSelector.swift */,
+A10002010000000000000010 /* AppCard.swift */,
+);
+path = Components;
+sourceTree = "<group>";
+};
+A1000301000000000000000A /* Preview Content */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000012 /* Preview Assets.xcassets */,
+);
+path = "Preview Content";
+sourceTree = "<group>";
+};
+A1000301000000000000000B /* MyCATests */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000013 /* MyCATests.swift */,
+);
+path = MyCATests;
+sourceTree = "<group>";
+};
+A1000301000000000000000C /* MyCAUITests */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000014 /* MyCAUITests.swift */,
+A10002010000000000000015 /* MyCAUITestsLaunchTests.swift */,
+);
+path = MyCAUITests;
+sourceTree = "<group>";
+};
+A1000301000000000000000D /* Products */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000016 /* MyCA.app */,
+A10002010000000000000017 /* MyCATests.xctest */,
+A10002010000000000000018 /* MyCAUITests.xctest */,
+);
+name = Products;
+sourceTree = "<group>";
+};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+A10000010000000000000002 /* MyCA */ = {
+isa = PBXNativeTarget;
+buildConfigurationList = A10007010000000000000001 /* Build configuration list for PBXNativeTarget "MyCA" */;
+buildPhases = (
+A10004010000000000000001 /* Sources */,
+A10005010000000000000001 /* Frameworks */,
+A10006010000000000000001 /* Resources */,
+);
+buildRules = (
+);
+dependencies = (
+);
+name = MyCA;
+productName = MyCA;
+productReference = A10002010000000000000016 /* MyCA.app */;
+productType = "com.apple.product-type.application";
+};
+A10000010000000000000003 /* MyCATests */ = {
+isa = PBXNativeTarget;
+buildConfigurationList = A10007010000000000000002 /* Build configuration list for PBXNativeTarget "MyCATests" */;
+buildPhases = (
+A10004010000000000000002 /* Sources */,
+A10005010000000000000002 /* Frameworks */,
+A10006010000000000000002 /* Resources */,
+);
+buildRules = (
+);
+dependencies = (
+A10009010000000000000001 /* PBXTargetDependency */,
+);
+name = MyCATests;
+productName = MyCATests;
+productReference = A10002010000000000000017 /* MyCATests.xctest */;
+productType = "com.apple.product-type.bundle.unit-test";
+};
+A10000010000000000000004 /* MyCAUITests */ = {
+isa = PBXNativeTarget;
+buildConfigurationList = A10007010000000000000003 /* Build configuration list for PBXNativeTarget "MyCAUITests" */;
+buildPhases = (
+A10004010000000000000003 /* Sources */,
+A10005010000000000000003 /* Frameworks */,
+A10006010000000000000003 /* Resources */,
+);
+buildRules = (
+);
+dependencies = (
+A10009010000000000000002 /* PBXTargetDependency */,
+);
+name = MyCAUITests;
+productName = MyCAUITests;
+productReference = A10002010000000000000018 /* MyCAUITests.xctest */;
+productType = "com.apple.product-type.bundle.ui-testing";
+};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+A10000010000000000000001 /* Project object */ = {
+isa = PBXProject;
+attributes = {
+BuildIndependentTargetsInParallel = 1;
+LastSwiftUpdateCheck = 1600;
+LastUpgradeCheck = 1600;
+TargetAttributes = {
+A10000010000000000000002 = {
+CreatedOnToolsVersion = 16.0;
+};
+A10000010000000000000003 = {
+CreatedOnToolsVersion = 16.0;
+TestTargetID = A10000010000000000000002;
+};
+A10000010000000000000004 = {
+CreatedOnToolsVersion = 16.0;
+TestTargetID = A10000010000000000000002;
+};
+};
+};
+buildConfigurationList = A10007010000000000000004 /* Build configuration list for PBXProject "MyCA" */;
+compatibilityVersion = "Xcode 14.0";
+developmentRegion = en;
+hasScannedForEncodings = 0;
+knownRegions = (
+en,
+Base,
+);
+mainGroup = A10003010000000000000001;
+productRefGroup = A1000301000000000000000D /* Products */;
+projectDirPath = "";
+projectRoot = "";
+targets = (
+A10000010000000000000002 /* MyCA */,
+A10000010000000000000003 /* MyCATests */,
+A10000010000000000000004 /* MyCAUITests */,
+);
+};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+A10006010000000000000001 /* Resources */ = {
+isa = PBXResourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+A10001010000000000000011 /* Assets.xcassets in Resources */,
+A10001010000000000000012 /* Preview Assets.xcassets in Resources */,
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10006010000000000000002 /* Resources */ = {
+isa = PBXResourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10006010000000000000003 /* Resources */ = {
+isa = PBXResourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+A10004010000000000000001 /* Sources */ = {
+isa = PBXSourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+A10001010000000000000001 /* MyCAApp.swift in Sources */,
+A10001010000000000000002 /* ContentView.swift in Sources */,
+A10001010000000000000003 /* Theme.swift in Sources */,
+A10001010000000000000004 /* Business.swift in Sources */,
+A10001010000000000000005 /* SalaryEntry.swift in Sources */,
+A10001010000000000000006 /* ExpenseEntry.swift in Sources */,
+A10001010000000000000007 /* Storage.swift in Sources */,
+A10001010000000000000008 /* BusinessListView.swift in Sources */,
+A10001010000000000000009 /* BusinessDashboardView.swift in Sources */,
+A1000101000000000000000A /* SalaryView.swift in Sources */,
+A1000101000000000000000B /* AddSalaryView.swift in Sources */,
+A1000101000000000000000C /* ExpenseView.swift in Sources */,
+A1000101000000000000000D /* AddExpenseView.swift in Sources */,
+A1000101000000000000000E /* GradientBackground.swift in Sources */,
+A1000101000000000000000F /* MonthSelector.swift in Sources */,
+A10001010000000000000010 /* AppCard.swift in Sources */,
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10004010000000000000002 /* Sources */ = {
+isa = PBXSourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+A10001010000000000000013 /* MyCATests.swift in Sources */,
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+A10004010000000000000003 /* Sources */ = {
+isa = PBXSourcesBuildPhase;
+buildActionMask = 2147483647;
+files = (
+A10001010000000000000014 /* MyCAUITests.swift in Sources */,
+A10001010000000000000015 /* MyCAUITestsLaunchTests.swift in Sources */,
+);
+runOnlyForDeploymentPostprocessing = 0;
+};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+A10009010000000000000001 /* PBXTargetDependency */ = {
+isa = PBXTargetDependency;
+target = A10000010000000000000002 /* MyCA */;
+targetProxy = A10008010000000000000001 /* PBXContainerItemProxy */;
+};
+A10009010000000000000002 /* PBXTargetDependency */ = {
+isa = PBXTargetDependency;
+target = A10000010000000000000002 /* MyCA */;
+targetProxy = A10008010000000000000002 /* PBXContainerItemProxy */;
+};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+A1000A010000000000000001 /* Debug */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+ALWAYS_SEARCH_USER_PATHS = NO;
+CLANG_ENABLE_MODULES = YES;
+CLANG_ENABLE_OBJC_ARC = YES;
+CLANG_WARN_BOOL_CONVERSION = YES;
+CLANG_WARN_CONSTANT_CONVERSION = YES;
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+CLANG_WARN_EMPTY_BODY = YES;
+CLANG_WARN_ENUM_CONVERSION = YES;
+CLANG_WARN_INFINITE_RECURSION = YES;
+CLANG_WARN_INT_CONVERSION = YES;
+CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+CLANG_WARN_STRICT_PROTOTYPES = YES;
+CLANG_WARN_SUSPICIOUS_MOVE = YES;
+COPY_PHASE_STRIP = NO;
+DEBUG_INFORMATION_FORMAT = dwarf;
+ENABLE_STRICT_OBJC_MSGSEND = YES;
+ENABLE_TESTABILITY = YES;
+GCC_C_LANGUAGE_STANDARD = gnu17;
+GCC_NO_COMMON_BLOCKS = YES;
+GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+GCC_WARN_UNDECLARED_SELECTOR = YES;
+GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+GCC_WARN_UNUSED_FUNCTION = YES;
+GCC_WARN_UNUSED_VARIABLE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+MTL_FAST_MATH = YES;
+ONLY_ACTIVE_ARCH = YES;
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+};
+name = Debug;
+};
+A1000A010000000000000002 /* Release */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+ALWAYS_SEARCH_USER_PATHS = NO;
+CLANG_ENABLE_MODULES = YES;
+CLANG_ENABLE_OBJC_ARC = YES;
+CLANG_WARN_BOOL_CONVERSION = YES;
+CLANG_WARN_CONSTANT_CONVERSION = YES;
+CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+CLANG_WARN_EMPTY_BODY = YES;
+CLANG_WARN_ENUM_CONVERSION = YES;
+CLANG_WARN_INFINITE_RECURSION = YES;
+CLANG_WARN_INT_CONVERSION = YES;
+CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+CLANG_WARN_STRICT_PROTOTYPES = YES;
+CLANG_WARN_SUSPICIOUS_MOVE = YES;
+COPY_PHASE_STRIP = NO;
+DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+ENABLE_NS_ASSERTIONS = NO;
+ENABLE_STRICT_OBJC_MSGSEND = YES;
+GCC_C_LANGUAGE_STANDARD = gnu17;
+GCC_NO_COMMON_BLOCKS = YES;
+GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+GCC_WARN_UNDECLARED_SELECTOR = YES;
+GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+GCC_WARN_UNUSED_FUNCTION = YES;
+GCC_WARN_UNUSED_VARIABLE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MTL_ENABLE_DEBUG_INFO = NO;
+MTL_FAST_MATH = YES;
+SWIFT_COMPILATION_MODE = wholemodule;
+};
+name = Release;
+};
+A1000A010000000000000003 /* Debug */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+DEVELOPMENT_ASSET_PATHS = "\"MyCA/Preview Content\"";
+DEVELOPMENT_TEAM = "";
+ENABLE_PREVIEWS = YES;
+GENERATE_INFOPLIST_FILE = YES;
+INFOPLIST_KEY_CFBundleDisplayName = MyCA;
+INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+LD_RUNPATH_SEARCH_PATHS = (
+"$(inherited)",
+"@executable_path/Frameworks",
+);
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.myca;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+SWIFT_EMIT_LOC_STRINGS = YES;
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+};
+name = Debug;
+};
+A1000A010000000000000004 /* Release */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+DEVELOPMENT_ASSET_PATHS = "\"MyCA/Preview Content\"";
+DEVELOPMENT_TEAM = "";
+ENABLE_PREVIEWS = YES;
+GENERATE_INFOPLIST_FILE = YES;
+INFOPLIST_KEY_CFBundleDisplayName = MyCA;
+INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+LD_RUNPATH_SEARCH_PATHS = (
+"$(inherited)",
+"@executable_path/Frameworks",
+);
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.myca;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+SWIFT_EMIT_LOC_STRINGS = YES;
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+};
+name = Release;
+};
+A1000A010000000000000005 /* Debug */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+BUNDLE_LOADER = "$(TEST_HOST)";
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+GENERATE_INFOPLIST_FILE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaTests;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyCA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyCA";
+};
+name = Debug;
+};
+A1000A010000000000000006 /* Release */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+BUNDLE_LOADER = "$(TEST_HOST)";
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+GENERATE_INFOPLIST_FILE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaTests;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyCA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyCA";
+};
+name = Release;
+};
+A1000A010000000000000007 /* Debug */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+GENERATE_INFOPLIST_FILE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaUITests;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+TEST_TARGET_NAME = MyCA;
+};
+name = Debug;
+};
+A1000A010000000000000008 /* Release */ = {
+isa = XCBuildConfiguration;
+buildSettings = {
+CODE_SIGN_STYLE = Automatic;
+CURRENT_PROJECT_VERSION = 1;
+GENERATE_INFOPLIST_FILE = YES;
+IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+MARKETING_VERSION = 1.0;
+PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaUITests;
+PRODUCT_NAME = "$(TARGET_NAME)";
+SWIFT_VERSION = 5.9;
+TARGETED_DEVICE_FAMILY = "1,2";
+TEST_TARGET_NAME = MyCA;
+};
+name = Release;
+};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+A10007010000000000000001 /* Build configuration list for PBXNativeTarget "MyCA" */ = {
+isa = XCConfigurationList;
+buildConfigurations = (
+A1000A010000000000000003 /* Debug */,
+A1000A010000000000000004 /* Release */,
+);
+defaultConfigurationIsVisible = 0;
+defaultConfigurationName = Release;
+};
+A10007010000000000000002 /* Build configuration list for PBXNativeTarget "MyCATests" */ = {
+isa = XCConfigurationList;
+buildConfigurations = (
+A1000A010000000000000005 /* Debug */,
+A1000A010000000000000006 /* Release */,
+);
+defaultConfigurationIsVisible = 0;
+defaultConfigurationName = Release;
+};
+A10007010000000000000003 /* Build configuration list for PBXNativeTarget "MyCAUITests" */ = {
+isa = XCConfigurationList;
+buildConfigurations = (
+A1000A010000000000000007 /* Debug */,
+A1000A010000000000000008 /* Release */,
+);
+defaultConfigurationIsVisible = 0;
+defaultConfigurationName = Release;
+};
+A10007010000000000000004 /* Build configuration list for PBXProject "MyCA" */ = {
+isa = XCConfigurationList;
+buildConfigurations = (
+A1000A010000000000000001 /* Debug */,
+A1000A010000000000000002 /* Release */,
+);
+defaultConfigurationIsVisible = 0;
+defaultConfigurationName = Release;
+};
+/* End XCConfigurationList section */
+};
+rootObject = A10000010000000000000001 /* Project object */;
+}
