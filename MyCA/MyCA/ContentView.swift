@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(Store.self) private var store
+
     var body: some View {
-        NavigationStack {
-            BusinessListView()
-        }
+        RootTabView()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(Store())
 }

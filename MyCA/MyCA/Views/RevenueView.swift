@@ -1,27 +1,25 @@
 import SwiftUI
 
-struct ExpenseView: View {
+struct RevenueView: View {
     @Environment(Store.self) private var store
     @State private var selectedBusinessId: String? = nil
     @State private var month: Int = Calendar.current.component(.month, from: Date())
     @State private var year: Int  = Calendar.current.component(.year,  from: Date())
-    @State private var editingEntry: ExpenseEntry?
+    @State private var editingEntry: RevenueEntry?
     @State private var showingAdd = false
     @State private var searchText = ""
 
     private var activeBizId: String { selectedBusinessId ?? Business.all.first!.id }
 
-    private var entries: [ExpenseEntry] {
-        let all = store.expenses(businessId: activeBizId, year: year, month: month)
+    private var entries: [RevenueEntry] {
+        let all = store.revenues(businessId: activeBizId, year: year, month: month)
             .sorted { $0.createdAt > $1.createdAt }
         if searchText.isEmpty { return all }
-        return all.filter {
-            $0.description.localizedCaseInsensitiveContains(searchText) ||
-            ($0.category?.localizedCaseInsensitiveContains(searchText) ?? false)
-        }
+        return all.filter { $0.source.localizedCaseInsensitiveContains(searchText) }
     }
 
     private var total: Double { entries.reduce(0) { $0 + $1.amount } }
+    private var hstTotal: Double { entries.reduce(0) { $0 + $1.hstCollected } }
 
     var body: some View {
         NavigationStack {
@@ -40,10 +38,15 @@ struct ExpenseView: View {
 
                     GlassCard {
                         HStack {
-                            Image(systemName: "cart.fill").foregroundStyle(.orange)
-                            Text("Total Expenses")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.primary)
+                            Image(systemName: "dollarsign.circle.fill").foregroundStyle(.green)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Total Revenue")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.primary)
+                                Text("HST Collected: \(Theme.currency(hstTotal))")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
                             Spacer()
                             Text(Theme.currency(total))
                                 .font(.headline.weight(.bold))
@@ -57,21 +60,21 @@ struct ExpenseView: View {
 
                     if entries.isEmpty {
                         Spacer()
-                        EmptyState(symbol: "cart.badge.plus",
-                                   title: "No Expenses Yet",
-                                   caption: "Tap + to add your first expense")
+                        EmptyState(symbol: "dollarsign.circle",
+                                   title: "No Revenue Yet",
+                                   caption: "Tap + to add your first revenue entry")
                         Spacer()
                     } else {
                         List {
                             ForEach(entries) { entry in
-                                ExpenseRowView(entry: entry, store: store)
+                                RevenueRowView(entry: entry)
                                     .listRowBackground(Color.clear)
                                     .listRowSeparator(.hidden)
                                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         Button(role: .destructive) {
                                             Haptics.impact(.medium)
-                                            store.delete(expense: entry, businessId: activeBizId, year: year, month: month)
+                                            store.delete(revenue: entry, businessId: activeBizId, year: year, month: month)
                                         } label: { Label("Delete", systemImage: "trash") }
 
                                         Button {
@@ -82,11 +85,11 @@ struct ExpenseView: View {
                                     }
                                     .swipeActions(edge: .leading) {
                                         Button {
-                                            Haptics.impact(.light)
                                             var copy = entry
                                             copy.id = UUID()
                                             copy.createdAt = Date()
-                                            store.upsert(expense: copy, businessId: activeBizId, year: year, month: month)
+                                            store.upsert(revenue: copy, businessId: activeBizId, year: year, month: month)
+                                            Haptics.impact(.light)
                                         } label: { Label("Duplicate", systemImage: "doc.on.doc") }
                                             .tint(.blue)
                                     }
@@ -102,8 +105,8 @@ struct ExpenseView: View {
                     }
                 }
             }
-            .navigationTitle("Expenses")
-            .searchable(text: $searchText, prompt: "Search expenses…")
+            .navigationTitle("Revenue")
+            .searchable(text: $searchText, prompt: "Search revenue…")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -116,8 +119,8 @@ struct ExpenseView: View {
                 }
             }
             .sheet(isPresented: $showingAdd) {
-                AddExpenseView(existing: editingEntry, businessId: activeBizId) { entry in
-                    store.upsert(expense: entry, businessId: activeBizId, year: year, month: month)
+                AddRevenueView(existing: editingEntry, businessId: activeBizId) { entry in
+                    store.upsert(revenue: entry, businessId: activeBizId, year: year, month: month)
                     Haptics.success()
                 }
                 .environment(store)
@@ -126,39 +129,30 @@ struct ExpenseView: View {
     }
 }
 
-private struct ExpenseRowView: View {
-    let entry: ExpenseEntry
-    let store: Store
-
-    private var category: Category? {
-        entry.categoryId.flatMap { id in store.categories.first { $0.id == id } }
-    }
+private struct RevenueRowView: View {
+    let entry: RevenueEntry
 
     var body: some View {
         GlassCard {
             HStack(spacing: 12) {
-                Image(systemName: category?.symbolName ?? "cart.fill")
+                Image(systemName: entry.paid ? "checkmark.circle.fill" : "clock.fill")
                     .font(.title3)
-                    .foregroundStyle(category.map { Color(hex: $0.colorHex) } ?? .orange)
+                    .foregroundStyle(entry.paid ? .green : .orange)
                     .frame(width: 36, height: 36)
-                    .background((category.map { Color(hex: $0.colorHex) } ?? .orange).opacity(0.15))
+                    .background((entry.paid ? Color.green : Color.orange).opacity(0.15))
                     .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(entry.description)
+                    Text(entry.source)
                         .font(.headline)
                         .foregroundStyle(.primary)
-                    if let cat = category {
-                        Text(cat.name)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    } else if let cat = entry.category, !cat.isEmpty {
-                        Text(cat)
+                    if let inv = entry.invoiceNumber {
+                        Text("Invoice: \(inv)")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
-                    if entry.hstIncluded {
-                        Text("Base: \(Theme.currency(entry.preTaxAmount))  HST: \(Theme.currency(entry.hstAmount))")
+                    if entry.hstCollected > 0 {
+                        Text("HST: \(Theme.currency(entry.hstCollected))")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -173,4 +167,3 @@ private struct ExpenseRowView: View {
         }
     }
 }
-

@@ -28,6 +28,33 @@ A10001010000000000000012 /* Preview Assets.xcassets in Resources */ = {isa = PBX
 A10001010000000000000013 /* MyCATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000013 /* MyCATests.swift */; };
 A10001010000000000000014 /* MyCAUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000014 /* MyCAUITests.swift */; };
 A10001010000000000000015 /* MyCAUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000015 /* MyCAUITestsLaunchTests.swift */; };
+A10001010000000000000019 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000019 /* Employee.swift */; };
+A1000101000000000000001A /* RevenueEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001A /* RevenueEntry.swift */; };
+A1000101000000000000001B /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001B /* Category.swift */; };
+A1000101000000000000001C /* Vendor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001C /* Vendor.swift */; };
+A1000101000000000000001D /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001D /* Client.swift */; };
+A1000101000000000000001E /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001E /* Invoice.swift */; };
+A1000101000000000000001F /* MileageEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000001F /* MileageEntry.swift */; };
+A10001010000000000000020 /* HomeOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000020 /* HomeOffice.swift */; };
+A10001010000000000000021 /* RecurringRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000021 /* RecurringRule.swift */; };
+A10001010000000000000022 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000022 /* Store.swift */; };
+A10001010000000000000023 /* Payroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000023 /* Payroll.swift */; };
+A10001010000000000000024 /* Tax.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000024 /* Tax.swift */; };
+A10001010000000000000025 /* HST.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000025 /* HST.swift */; };
+A10001010000000000000026 /* MileageCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000026 /* MileageCalc.swift */; };
+A10001010000000000000027 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000027 /* RootTabView.swift */; };
+A10001010000000000000028 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000028 /* DashboardView.swift */; };
+A10001010000000000000029 /* RevenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000029 /* RevenueView.swift */; };
+A1000101000000000000002A /* AddRevenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002A /* AddRevenueView.swift */; };
+A1000101000000000000002B /* ReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002B /* ReportsView.swift */; };
+A1000101000000000000002C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002C /* SettingsView.swift */; };
+A1000101000000000000002D /* MileageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002D /* MileageView.swift */; };
+A1000101000000000000002E /* TaxEstimatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002E /* TaxEstimatorView.swift */; };
+A1000101000000000000002F /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000201000000000000002F /* GlassCard.swift */; };
+A10001010000000000000030 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000030 /* EmptyState.swift */; };
+A10001010000000000000031 /* BusinessPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000031 /* BusinessPicker.swift */; };
+A10001010000000000000032 /* StatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000032 /* StatCard.swift */; };
+A10001010000000000000033 /* InvoiceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10002010000000000000033 /* InvoiceListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +99,33 @@ A10002010000000000000015 /* MyCAUITestsLaunchTests.swift */ = {isa = PBXFileRefe
 A10002010000000000000016 /* MyCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 A10002010000000000000017 /* MyCATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 A10002010000000000000018 /* MyCAUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyCAUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+A10002010000000000000019 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+A1000201000000000000001A /* RevenueEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueEntry.swift; sourceTree = "<group>"; };
+A1000201000000000000001B /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+A1000201000000000000001C /* Vendor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vendor.swift; sourceTree = "<group>"; };
+A1000201000000000000001D /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+A1000201000000000000001E /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
+A1000201000000000000001F /* MileageEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageEntry.swift; sourceTree = "<group>"; };
+A10002010000000000000020 /* HomeOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeOffice.swift; sourceTree = "<group>"; };
+A10002010000000000000021 /* RecurringRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringRule.swift; sourceTree = "<group>"; };
+A10002010000000000000022 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+A10002010000000000000023 /* Payroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payroll.swift; sourceTree = "<group>"; };
+A10002010000000000000024 /* Tax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tax.swift; sourceTree = "<group>"; };
+A10002010000000000000025 /* HST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HST.swift; sourceTree = "<group>"; };
+A10002010000000000000026 /* MileageCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageCalc.swift; sourceTree = "<group>"; };
+A10002010000000000000027 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+A10002010000000000000028 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+A10002010000000000000029 /* RevenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueView.swift; sourceTree = "<group>"; };
+A1000201000000000000002A /* AddRevenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRevenueView.swift; sourceTree = "<group>"; };
+A1000201000000000000002B /* ReportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsView.swift; sourceTree = "<group>"; };
+A1000201000000000000002C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+A1000201000000000000002D /* MileageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageView.swift; sourceTree = "<group>"; };
+A1000201000000000000002E /* TaxEstimatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxEstimatorView.swift; sourceTree = "<group>"; };
+A1000201000000000000002F /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
+A10002010000000000000030 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
+A10002010000000000000031 /* BusinessPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessPicker.swift; sourceTree = "<group>"; };
+A10002010000000000000032 /* StatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCard.swift; sourceTree = "<group>"; };
+A10002010000000000000033 /* InvoiceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +171,7 @@ A10002010000000000000002 /* ContentView.swift */,
 A10003010000000000000003 /* Theme */,
 A10003010000000000000004 /* Models */,
 A10003010000000000000005 /* Storage */,
+A10003010000000000000009 /* Calculations */,
 A10003010000000000000006 /* Views */,
 A10002010000000000000011 /* Assets.xcassets */,
 A1000301000000000000000A /* Preview Content */,
@@ -138,6 +193,15 @@ children = (
 A10002010000000000000004 /* Business.swift */,
 A10002010000000000000005 /* SalaryEntry.swift */,
 A10002010000000000000006 /* ExpenseEntry.swift */,
+A10002010000000000000019 /* Employee.swift */,
+A1000201000000000000001A /* RevenueEntry.swift */,
+A1000201000000000000001B /* Category.swift */,
+A1000201000000000000001C /* Vendor.swift */,
+A1000201000000000000001D /* Client.swift */,
+A1000201000000000000001E /* Invoice.swift */,
+A1000201000000000000001F /* MileageEntry.swift */,
+A10002010000000000000020 /* HomeOffice.swift */,
+A10002010000000000000021 /* RecurringRule.swift */,
 );
 path = Models;
 sourceTree = "<group>";
@@ -146,6 +210,7 @@ A10003010000000000000005 /* Storage */ = {
 isa = PBXGroup;
 children = (
 A10002010000000000000007 /* Storage.swift */,
+A10002010000000000000022 /* Store.swift */,
 );
 path = Storage;
 sourceTree = "<group>";
@@ -159,6 +224,15 @@ A1000201000000000000000A /* SalaryView.swift */,
 A1000201000000000000000B /* AddSalaryView.swift */,
 A1000201000000000000000C /* ExpenseView.swift */,
 A1000201000000000000000D /* AddExpenseView.swift */,
+A10002010000000000000027 /* RootTabView.swift */,
+A10002010000000000000028 /* DashboardView.swift */,
+A10002010000000000000029 /* RevenueView.swift */,
+A1000201000000000000002A /* AddRevenueView.swift */,
+A1000201000000000000002B /* ReportsView.swift */,
+A1000201000000000000002C /* SettingsView.swift */,
+A1000201000000000000002D /* MileageView.swift */,
+A1000201000000000000002E /* TaxEstimatorView.swift */,
+A10002010000000000000033 /* InvoiceListView.swift */,
 A10003010000000000000007 /* Components */,
 );
 path = Views;
@@ -170,8 +244,23 @@ children = (
 A1000201000000000000000E /* GradientBackground.swift */,
 A1000201000000000000000F /* MonthSelector.swift */,
 A10002010000000000000010 /* AppCard.swift */,
+A1000201000000000000002F /* GlassCard.swift */,
+A10002010000000000000030 /* EmptyState.swift */,
+A10002010000000000000031 /* BusinessPicker.swift */,
+A10002010000000000000032 /* StatCard.swift */,
 );
 path = Components;
+sourceTree = "<group>";
+};
+A10003010000000000000009 /* Calculations */ = {
+isa = PBXGroup;
+children = (
+A10002010000000000000023 /* Payroll.swift */,
+A10002010000000000000024 /* Tax.swift */,
+A10002010000000000000025 /* HST.swift */,
+A10002010000000000000026 /* MileageCalc.swift */,
+);
+path = Calculations;
 sourceTree = "<group>";
 };
 A1000301000000000000000A /* Preview Content */ = {
@@ -355,6 +444,33 @@ A1000101000000000000000D /* AddExpenseView.swift in Sources */,
 A1000101000000000000000E /* GradientBackground.swift in Sources */,
 A1000101000000000000000F /* MonthSelector.swift in Sources */,
 A10001010000000000000010 /* AppCard.swift in Sources */,
+A10001010000000000000019 /* Employee.swift in Sources */,
+A1000101000000000000001A /* RevenueEntry.swift in Sources */,
+A1000101000000000000001B /* Category.swift in Sources */,
+A1000101000000000000001C /* Vendor.swift in Sources */,
+A1000101000000000000001D /* Client.swift in Sources */,
+A1000101000000000000001E /* Invoice.swift in Sources */,
+A1000101000000000000001F /* MileageEntry.swift in Sources */,
+A10001010000000000000020 /* HomeOffice.swift in Sources */,
+A10001010000000000000021 /* RecurringRule.swift in Sources */,
+A10001010000000000000022 /* Store.swift in Sources */,
+A10001010000000000000023 /* Payroll.swift in Sources */,
+A10001010000000000000024 /* Tax.swift in Sources */,
+A10001010000000000000025 /* HST.swift in Sources */,
+A10001010000000000000026 /* MileageCalc.swift in Sources */,
+A10001010000000000000027 /* RootTabView.swift in Sources */,
+A10001010000000000000028 /* DashboardView.swift in Sources */,
+A10001010000000000000029 /* RevenueView.swift in Sources */,
+A1000101000000000000002A /* AddRevenueView.swift in Sources */,
+A1000101000000000000002B /* ReportsView.swift in Sources */,
+A1000101000000000000002C /* SettingsView.swift in Sources */,
+A1000101000000000000002D /* MileageView.swift in Sources */,
+A1000101000000000000002E /* TaxEstimatorView.swift in Sources */,
+A1000101000000000000002F /* GlassCard.swift in Sources */,
+A10001010000000000000030 /* EmptyState.swift in Sources */,
+A10001010000000000000031 /* BusinessPicker.swift in Sources */,
+A10001010000000000000032 /* StatCard.swift in Sources */,
+A10001010000000000000033 /* InvoiceListView.swift in Sources */,
 );
 runOnlyForDeploymentPostprocessing = 0;
 };
@@ -424,7 +540,7 @@ GCC_WARN_UNDECLARED_SELECTOR = YES;
 GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 GCC_WARN_UNUSED_FUNCTION = YES;
 GCC_WARN_UNUSED_VARIABLE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 MTL_FAST_MATH = YES;
 ONLY_ACTIVE_ARCH = YES;
@@ -466,7 +582,7 @@ GCC_WARN_UNDECLARED_SELECTOR = YES;
 GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 GCC_WARN_UNUSED_FUNCTION = YES;
 GCC_WARN_UNUSED_VARIABLE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MTL_ENABLE_DEBUG_INFO = NO;
 MTL_FAST_MATH = YES;
 SWIFT_COMPILATION_MODE = wholemodule;
@@ -540,7 +656,7 @@ BUNDLE_LOADER = "$(TEST_HOST)";
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
 GENERATE_INFOPLIST_FILE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MARKETING_VERSION = 1.0;
 PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaTests;
 PRODUCT_NAME = "$(TARGET_NAME)";
@@ -557,7 +673,7 @@ BUNDLE_LOADER = "$(TEST_HOST)";
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
 GENERATE_INFOPLIST_FILE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MARKETING_VERSION = 1.0;
 PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaTests;
 PRODUCT_NAME = "$(TARGET_NAME)";
@@ -573,7 +689,7 @@ buildSettings = {
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
 GENERATE_INFOPLIST_FILE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MARKETING_VERSION = 1.0;
 PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaUITests;
 PRODUCT_NAME = "$(TARGET_NAME)";
@@ -589,7 +705,7 @@ buildSettings = {
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
 GENERATE_INFOPLIST_FILE = YES;
-IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 MARKETING_VERSION = 1.0;
 PRODUCT_BUNDLE_IDENTIFIER = com.bhavyat81.mycaUITests;
 PRODUCT_NAME = "$(TARGET_NAME)";
