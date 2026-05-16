@@ -9,7 +9,7 @@ struct ExpenseView: View {
     @State private var showingAdd = false
     @State private var searchText = ""
 
-    private var activeBizId: String { selectedBusinessId ?? Business.all.first!.id }
+    private var activeBizId: String { selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
 
     private var entries: [ExpenseEntry] {
         let all = store.expenses(businessId: activeBizId, year: year, month: month)

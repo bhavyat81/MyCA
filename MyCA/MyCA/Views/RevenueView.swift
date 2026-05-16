@@ -9,7 +9,7 @@ struct RevenueView: View {
     @State private var showingAdd = false
     @State private var searchText = ""
 
-    private var activeBizId: String { selectedBusinessId ?? Business.all.first!.id }
+    private var activeBizId: String { selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
 
     private var entries: [RevenueEntry] {
         let all = store.revenues(businessId: activeBizId, year: year, month: month)

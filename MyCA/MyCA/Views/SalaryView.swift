@@ -9,7 +9,7 @@ struct SalaryView: View {
     @State private var showingAdd = false
     @State private var searchText = ""
 
-    private var activeBizId: String { selectedBusinessId ?? Business.all.first!.id }
+    private var activeBizId: String { selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
     private var activeBiz: Business { Business.all.first { $0.id == activeBizId } ?? Business.all[0] }
 
     private var entries: [SalaryEntry] {

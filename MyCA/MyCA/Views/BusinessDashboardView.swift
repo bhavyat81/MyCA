@@ -10,7 +10,7 @@ struct BusinessDashboardView: View {
         self.business = business
         let now = Date()
         _month = State(initialValue: Calendar.current.component(.month, from: now))
-        _year  = State(initialValue: Calendar.current.component(.year,  from: now))
+        _year  = State(initialValue: Calendar.current.component(.year, from: now))
     }
 
     var body: some View {

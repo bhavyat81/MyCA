@@ -74,7 +74,7 @@ struct InvoiceListView: View {
         }
         .sheet(isPresented: $showingEditor) {
             InvoiceEditorView(existing: editingInvoice,
-                              businessId: selectedBusinessId ?? Business.all.first!.id) { inv in
+                              businessId: selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab") { inv in
                 if let idx = store.invoices.firstIndex(where: { $0.id == inv.id }) {
                     store.invoices[idx] = inv
                 } else {

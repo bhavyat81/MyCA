@@ -65,7 +65,7 @@ struct MileageView: View {
         }
         .padding(.horizontal, 16)
         .sheet(isPresented: $showingAdd) {
-            AddMileageView(businessId: selectedBusinessId ?? Business.all.first!.id) { entry in
+            AddMileageView(businessId: selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab") { entry in
                 store.mileageEntries.append(entry)
                 store.saveMileage()
                 Haptics.success()

@@ -251,7 +251,7 @@ struct AddEmployeeSheet: View {
         _name     = State(initialValue: existing?.name ?? "")
         _rateText = State(initialValue: existing.map { String($0.defaultPayRate) } ?? "")
         _role     = State(initialValue: existing?.role ?? "")
-        _bizId    = State(initialValue: existing?.businessId ?? Business.all.first!.id)
+        _bizId    = State(initialValue: existing?.businessId ?? Business.all.first?.id ?? "planet-rehab")
     }
 
     var body: some View {
