@@ -161,12 +161,16 @@ private struct SalaryRowView: View {
     let entry: SalaryEntry
     private var payroll: PayrollResult { Payroll.calculate(hours: entry.hours, rate: entry.payRate, bonus: entry.bonus) }
 
+    private var badgeColor: Color {
+        entry.paymentType == .contract ? .gray : .purple
+    }
+
     var body: some View {
         GlassCard {
             HStack(spacing: 12) {
                 Image(systemName: "person.fill")
                     .font(.title3)
-                    .foregroundStyle(.purple)
+                    .foregroundStyle(Color.purple)
                     .frame(width: 36, height: 36)
                     .background(Color.purple.opacity(0.15))
                     .clipShape(Circle())
@@ -180,9 +184,9 @@ private struct SalaryRowView: View {
                             .font(.caption2.weight(.semibold))
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
-                            .background(entry.paymentType == .contract ? Color.gray.opacity(0.2) : Color.purple.opacity(0.2))
+                            .background(badgeColor.opacity(0.2))
                             .clipShape(Capsule())
-                            .foregroundStyle(entry.paymentType == .contract ? .secondary : .purple)
+                            .foregroundStyle(badgeColor)
                     }
                     Text("\(entry.hours, specifier: "%.1f")h × \(Theme.currency(entry.payRate))/h")
                         .font(.caption)
