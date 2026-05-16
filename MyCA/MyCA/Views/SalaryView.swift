@@ -44,6 +44,9 @@ struct SalaryView: View {
             $0 + Payroll.calculate(hours: $1.hours, rate: $1.payRate, bonus: $1.bonus).net
         }
     }
+    private var selectedMonthName: String {
+        Calendar.current.monthSymbols[max(1, min(12, selectedMonth)) - 1]
+    }
 
     var body: some View {
         ZStack {
@@ -57,7 +60,7 @@ struct SalaryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(activeBizName)
                                 .font(.headline)
-                            Text("\(Calendar.current.monthSymbols[selectedMonth - 1]) \(selectedYear)")
+                            Text("\(selectedMonthName) \(selectedYear)")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }

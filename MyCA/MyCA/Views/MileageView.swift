@@ -29,13 +29,17 @@ struct MileageView: View {
 
     private var totalKm: Double       { filteredEntries.reduce(0) { $0 + $1.km } }
     private var totalDeductible: Double { filteredEntries.reduce(0) { $0 + $1.deductible } }
+    private var scopedMonthName: String? {
+        guard let month else { return nil }
+        return Calendar.current.monthSymbols[max(1, min(12, month)) - 1]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if let year, let month {
+            if let year, let scopedMonthName {
                 AppCard {
                     HStack {
-                        Text("\(Calendar.current.monthSymbols[month - 1]) \(year)")
+                        Text("\(scopedMonthName) \(year)")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
                         Spacer()

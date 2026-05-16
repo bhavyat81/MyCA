@@ -34,6 +34,9 @@ struct ExpenseView: View {
     }
 
     private var total: Double { entries.reduce(0) { $0 + $1.amount } }
+    private var selectedMonthName: String {
+        Calendar.current.monthSymbols[max(1, min(12, selectedMonth)) - 1]
+    }
 
     var body: some View {
         ZStack {
@@ -44,7 +47,7 @@ struct ExpenseView: View {
             VStack(spacing: 0) {
                 AppCard {
                     HStack {
-                        Text("\(Calendar.current.monthSymbols[selectedMonth - 1]) \(selectedYear)")
+                        Text("\(selectedMonthName) \(selectedYear)")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
                         Spacer()

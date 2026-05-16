@@ -29,16 +29,20 @@ struct InvoiceListView: View {
                 && (month.map { invoiceMonth == $0 } ?? true)
         }
     }
+    private var scopedMonthName: String? {
+        guard let month else { return nil }
+        return Calendar.current.monthSymbols[max(1, min(12, month)) - 1]
+    }
 
     var body: some View {
         ZStack {
             LinearGradient(colors: store.selectedTheme.gradientColors,
                            startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
             VStack(spacing: 0) {
-                if let year, let month {
+                if let year, let scopedMonthName {
                     AppCard {
                         HStack {
-                            Text("\(Calendar.current.monthSymbols[month - 1]) \(year)")
+                            Text("\(scopedMonthName) \(year)")
                                 .font(.caption.weight(.semibold))
                                 .foregroundStyle(.secondary)
                             Spacer()
