@@ -18,12 +18,13 @@ struct MileageView: View {
     private var activeBizId: String { business?.id ?? selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
 
     private var filteredEntries: [MileageEntry] {
-        store.mileageEntries.filter {
-            let entryYear = Calendar.current.component(.year, from: $0.date)
-            let entryMonth = Calendar.current.component(.month, from: $0.date)
-            $0.businessId == activeBizId
-                && (year.map { entryYear == $0 } ?? true)
-                && (month.map { entryMonth == $0 } ?? true)
+        store.mileageEntries.filter { entry in
+            let entryYear = Calendar.current.component(.year, from: entry.date)
+            let entryMonth = Calendar.current.component(.month, from: entry.date)
+            let bizMatch = entry.businessId == activeBizId
+            let yearMatch = year.map { entryYear == $0 } ?? true
+            let monthMatch = month.map { entryMonth == $0 } ?? true
+            return bizMatch && yearMatch && monthMatch
         }
     }
 
