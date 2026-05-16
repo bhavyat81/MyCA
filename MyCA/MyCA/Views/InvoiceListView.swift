@@ -111,7 +111,7 @@ struct InvoiceEditorView: View {
         _number      = State(initialValue: existing?.number ?? "")
         _date        = State(initialValue: existing?.date ?? Date())
         _dueDate     = State(initialValue: existing?.dueDate ?? Calendar.current.date(byAdding: .day, value: 30, to: Date())!)
-        _items       = State(initialValue: existing?.items ?? [InvoiceLine(description: "", qty: 1, unitPrice: 0)])
+        _items       = State(initialValue: existing?.items ?? [InvoiceLine(detail: "", qty: 1, unitPrice: 0)])
         _hstRateText = State(initialValue: existing.map { String($0.hstRate * 100) } ?? "13")
         _paid        = State(initialValue: existing?.paid ?? false)
         _notes       = State(initialValue: existing?.notes ?? "")
@@ -142,22 +142,23 @@ struct InvoiceEditorView: View {
                         .foregroundStyle(.primary)
                     }
                     Section("Line Items") {
-                        ForEach($items) { $item in
+                        ForEach(items.indices, id: \.self) { idx in
                             VStack(alignment: .leading, spacing: 6) {
-                                TextField("Description", text: $item.description).foregroundStyle(.primary)
+                                TextField("Description", text: $items[idx].detail)
+                                    .foregroundStyle(.primary)
                                 HStack {
-                                    TextField("Qty", value: $item.qty, format: .number)
+                                    TextField("Qty", value: $items[idx].qty, format: .number)
                                         .keyboardType(.decimalPad).frame(width: 60).foregroundStyle(.primary)
                                     Text("×")
-                                    TextField("Unit Price", value: $item.unitPrice, format: .currency(code: "CAD"))
+                                    TextField("Unit Price", value: $items[idx].unitPrice, format: .currency(code: "CAD"))
                                         .keyboardType(.decimalPad).foregroundStyle(.primary)
                                     Spacer()
-                                    Text(Theme.currency(item.total)).foregroundStyle(.secondary)
+                                    Text(Theme.currency(items[idx].lineTotal)).foregroundStyle(.secondary)
                                 }
                             }
                         }
                         .onDelete { items.remove(atOffsets: $0) }
-                        Button { items.append(InvoiceLine(description: "", qty: 1, unitPrice: 0)) } label: {
+                        Button { items.append(InvoiceLine(detail: "", qty: 1, unitPrice: 0)) } label: {
                             Label("Add Line", systemImage: "plus").foregroundStyle(.primary)
                         }
                     }
