@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct BusinessListView: View {
+    @Environment(Store.self) private var store
+
     var body: some View {
         GradientBackground {
             ScrollView {
@@ -15,28 +17,28 @@ struct BusinessListView: View {
                         NavigationLink(value: business) {
                             AppCard {
                                 HStack(spacing: Theme.spacingM) {
-                                    Text(business.icon)
+                                    Text(business.emoji)
                                         .font(.system(size: 34))
 
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(business.name)
                                             .font(.headline.weight(.bold))
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(.primary)
                                         Text(business.address)
-                                            .foregroundStyle(.white.opacity(0.85))
+                                            .foregroundStyle(.secondary)
                                             .font(.subheadline)
                                         Text(business.type)
                                             .font(.caption.weight(.semibold))
                                             .padding(.horizontal, Theme.spacingXS)
                                             .padding(.vertical, 4)
-                                            .background(Theme.accent.opacity(0.22))
+                                            .background(store.selectedTheme.accent.opacity(0.22))
                                             .clipShape(Capsule())
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(.primary)
                                     }
 
                                     Spacer()
                                     Image(systemName: "chevron.right")
-                                        .foregroundStyle(.white.opacity(0.8))
+                                        .foregroundStyle(.secondary)
                                 }
                             }
                         }
@@ -47,6 +49,7 @@ struct BusinessListView: View {
             }
             .navigationDestination(for: Business.self) { business in
                 BusinessDashboardView(business: business)
+                    .environment(store)
             }
         }
     }
@@ -55,5 +58,7 @@ struct BusinessListView: View {
 #Preview {
     NavigationStack {
         BusinessListView()
+            .environment(Store())
     }
 }
+

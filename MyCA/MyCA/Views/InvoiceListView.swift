@@ -1,0 +1,195 @@
+import SwiftUI
+
+struct InvoiceListView: View {
+    @Environment(Store.self) private var store
+    @State private var showingEditor = false
+    @State private var editingInvoice: Invoice?
+    @State private var selectedBusinessId: String? = nil
+
+    private var filtered: [Invoice] {
+        guard let bid = selectedBusinessId else { return store.invoices }
+        return store.invoices.filter { $0.businessId == bid }
+    }
+
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: store.selectedTheme.gradientColors,
+                           startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+            VStack(spacing: 0) {
+                BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
+                    .padding(16)
+                if filtered.isEmpty {
+                    Spacer()
+                    EmptyState(symbol: "doc.text.fill",
+                               title: "No Invoices",
+                               caption: "Tap + to create your first invoice")
+                    Spacer()
+                } else {
+                    List {
+                        ForEach(filtered.sorted { $0.date > $1.date }) { inv in
+                            let client = store.clients.first { $0.id == inv.clientId }
+                            GlassCard(padding: 12) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(inv.number)
+                                            .font(.headline).foregroundStyle(.primary)
+                                        Text(client?.name ?? "Unknown Client")
+                                            .font(.subheadline).foregroundStyle(.secondary)
+                                        Text(inv.date.formatted(date: .abbreviated, time: .omitted))
+                                            .font(.caption).foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    VStack(alignment: .trailing, spacing: 4) {
+                                        Text(Theme.currency(inv.invoiceTotal))
+                                            .font(.headline.weight(.bold)).foregroundStyle(.primary)
+                                        Text(inv.paid ? "Paid" : "Unpaid")
+                                            .font(.caption.weight(.semibold))
+                                            .foregroundStyle(inv.paid ? .green : .orange)
+                                    }
+                                }
+                            }
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .onTapGesture { editingInvoice = inv; showingEditor = true }
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    store.invoices.removeAll { $0.id == inv.id }
+                                    store.saveInvoices()
+                                } label: { Label("Delete", systemImage: "trash") }
+                            }
+                        }
+                    }
+                    .listStyle(.plain).scrollContentBackground(.hidden)
+                }
+            }
+        }
+        .navigationTitle("Invoices")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    editingInvoice = nil; showingEditor = true
+                    Haptics.impact(.medium)
+                } label: { Image(systemName: "plus.circle.fill").font(.title3) }
+            }
+        }
+        .sheet(isPresented: $showingEditor) {
+            InvoiceEditorView(existing: editingInvoice,
+                              businessId: selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab") { inv in
+                if let idx = store.invoices.firstIndex(where: { $0.id == inv.id }) {
+                    store.invoices[idx] = inv
+                } else {
+                    store.invoices.append(inv)
+                }
+                store.saveInvoices()
+                Haptics.success()
+            }
+            .environment(store)
+        }
+    }
+}
+
+struct InvoiceEditorView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(Store.self) private var store
+
+    let existing: Invoice?
+    let businessId: String
+    let onSave: (Invoice) -> Void
+
+    @State private var clientId: UUID?
+    @State private var number: String
+    @State private var date: Date
+    @State private var dueDate: Date
+    @State private var items: [InvoiceLine]
+    @State private var hstRateText: String
+    @State private var paid: Bool
+    @State private var notes: String
+
+    init(existing: Invoice?, businessId: String, onSave: @escaping (Invoice) -> Void) {
+        self.existing = existing; self.businessId = businessId; self.onSave = onSave
+        _clientId    = State(initialValue: existing?.clientId)
+        _number      = State(initialValue: existing?.number ?? "")
+        _date        = State(initialValue: existing?.date ?? Date())
+        _dueDate     = State(initialValue: existing?.dueDate ?? Calendar.current.date(byAdding: .day, value: 30, to: Date())!)
+        _items       = State(initialValue: existing?.items ?? [InvoiceLine(description: "", qty: 1, unitPrice: 0)])
+        _hstRateText = State(initialValue: existing.map { String($0.hstRate * 100) } ?? "13")
+        _paid        = State(initialValue: existing?.paid ?? false)
+        _notes       = State(initialValue: existing?.notes ?? "")
+    }
+
+    private var hstRate: Double   { (Double(hstRateText) ?? 13) / 100 }
+    private var subtotal: Double  { items.reduce(0) { $0 + $1.lineTotal } }
+    private var hst: Double       { subtotal * hstRate }
+    private var invoiceTotal: Double { subtotal + hst }
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(colors: store.selectedTheme.gradientColors,
+                               startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+                Form {
+                    Section("Invoice") {
+                        TextField("Invoice Number", text: $number).foregroundStyle(.primary)
+                        DatePicker("Date", selection: $date, displayedComponents: .date).foregroundStyle(.primary)
+                        DatePicker("Due Date", selection: $dueDate, displayedComponents: .date).foregroundStyle(.primary)
+                        Toggle("Paid", isOn: $paid)
+                    }
+                    Section("Client") {
+                        Picker("Client", selection: $clientId) {
+                            Text("Select Client").tag(Optional<UUID>.none)
+                            ForEach(store.clients) { c in Text(c.name).tag(Optional(c.id)) }
+                        }
+                        .foregroundStyle(.primary)
+                    }
+                    Section("Line Items") {
+                        ForEach($items) { $item in
+                            VStack(alignment: .leading, spacing: 6) {
+                                TextField("Description", text: $item.description).foregroundStyle(.primary)
+                                HStack {
+                                    TextField("Qty", value: $item.qty, format: .number)
+                                        .keyboardType(.decimalPad).frame(width: 60).foregroundStyle(.primary)
+                                    Text("×")
+                                    TextField("Unit Price", value: $item.unitPrice, format: .currency(code: "CAD"))
+                                        .keyboardType(.decimalPad).foregroundStyle(.primary)
+                                    Spacer()
+                                    Text(Theme.currency(item.total)).foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .onDelete { items.remove(atOffsets: $0) }
+                        Button { items.append(InvoiceLine(description: "", qty: 1, unitPrice: 0)) } label: {
+                            Label("Add Line", systemImage: "plus").foregroundStyle(.primary)
+                        }
+                    }
+                    Section("Totals") {
+                        HStack { Text("Subtotal").foregroundStyle(.primary); Spacer(); Text(Theme.currency(subtotal)).foregroundStyle(.secondary) }
+                        HStack { Text("HST (\(hstRateText)%)").foregroundStyle(.primary); Spacer(); Text(Theme.currency(hst)).foregroundStyle(.secondary) }
+                        HStack { Text("Total").font(.headline).foregroundStyle(.primary); Spacer(); Text(Theme.currency(invoiceTotal)).font(.headline).foregroundStyle(.primary) }
+                        TextField("HST Rate %", text: $hstRateText).keyboardType(.decimalPad).foregroundStyle(.primary)
+                    }
+                    Section("Notes") {
+                        TextField("Notes", text: $notes).foregroundStyle(.primary)
+                    }
+                }
+                .scrollContentBackground(.hidden)
+            }
+            .navigationTitle(existing == nil ? "New Invoice" : "Edit Invoice")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        let cId = clientId ?? UUID()
+                        var inv = existing ?? Invoice(businessId: businessId, clientId: cId,
+                                                       number: number, date: date, dueDate: dueDate,
+                                                       items: items)
+                        inv.clientId = cId; inv.number = number; inv.date = date; inv.dueDate = dueDate
+                        inv.items = items; inv.hstRate = hstRate; inv.paid = paid
+                        inv.notes = notes.isEmpty ? nil : notes
+                        onSave(inv); dismiss()
+                    }
+                    .disabled(number.isEmpty || items.isEmpty)
+                }
+            }
+        }
+    }
+}

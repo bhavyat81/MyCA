@@ -3,6 +3,7 @@ import SwiftUI
 struct MonthSelector: View {
     @Binding var month: Int
     @Binding var year: Int
+    @Environment(Store.self) private var store
 
     private let monthSymbols = Calendar.current.shortMonthSymbols
 
@@ -17,8 +18,9 @@ struct MonthSelector: View {
                         .buttonStyle(.plain)
                         .padding(.horizontal, Theme.spacingS)
                         .padding(.vertical, Theme.spacingXS)
-                        .background(month == value ? Theme.accent.opacity(0.25) : Theme.cardBackground)
-                        .foregroundStyle(.white)
+                        .background(month == value ? store.selectedTheme.accent.opacity(0.35) : Color.white.opacity(0.1))
+                        .foregroundStyle(month == value ? Color.primary : Color.secondary)
+                        .fontWeight(month == value ? .bold : .regular)
                         .clipShape(Capsule())
                     }
                 }
@@ -29,11 +31,11 @@ struct MonthSelector: View {
                     year -= 1
                 } label: {
                     Image(systemName: "chevron.left")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                 }
 
                 Text("\(year)")
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .font(.headline)
                     .frame(minWidth: 80)
 
@@ -41,9 +43,10 @@ struct MonthSelector: View {
                     year += 1
                 } label: {
                     Image(systemName: "chevron.right")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                 }
             }
         }
     }
 }
+

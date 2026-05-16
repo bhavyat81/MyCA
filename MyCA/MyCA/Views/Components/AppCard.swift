@@ -6,8 +6,22 @@ struct AppCard<Content: View>: View {
     var body: some View {
         content
             .padding(Theme.spacingM)
-            .background(Theme.cardBackground)
+            .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: Theme.cardCornerRadius, style: .continuous))
-            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 8)
+            .overlay(
+                RoundedRectangle(cornerRadius: Theme.cardCornerRadius, style: .continuous)
+                    .stroke(Color.white.opacity(0.15), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
     }
 }
+
+#Preview {
+    AppCard {
+        Text("Glass Card")
+            .foregroundStyle(.primary)
+    }
+    .padding()
+    .background(Color.indigo)
+}
+

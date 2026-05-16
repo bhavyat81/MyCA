@@ -1,25 +1,25 @@
 import SwiftUI
 
-struct SalaryView: View {
+struct RevenueView: View {
     @Environment(Store.self) private var store
     @State private var selectedBusinessId: String? = nil
     @State private var month: Int = Calendar.current.component(.month, from: Date())
     @State private var year: Int  = Calendar.current.component(.year,  from: Date())
-    @State private var editingEntry: SalaryEntry?
+    @State private var editingEntry: RevenueEntry?
     @State private var showingAdd = false
     @State private var searchText = ""
 
     private var activeBizId: String { selectedBusinessId ?? Business.all.first?.id ?? "planet-rehab" }
-    private var activeBiz: Business { Business.all.first { $0.id == activeBizId } ?? Business.all[0] }
 
-    private var entries: [SalaryEntry] {
-        let all = store.salaries(businessId: activeBizId, year: year, month: month)
+    private var entries: [RevenueEntry] {
+        let all = store.revenues(businessId: activeBizId, year: year, month: month)
             .sorted { $0.createdAt > $1.createdAt }
         if searchText.isEmpty { return all }
-        return all.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        return all.filter { $0.source.localizedCaseInsensitiveContains(searchText) }
     }
 
-    private var total: Double { entries.reduce(0) { $0 + $1.gross } }
+    private var total: Double { entries.reduce(0) { $0 + $1.amount } }
+    private var hstTotal: Double { entries.reduce(0) { $0 + $1.hstCollected } }
 
     var body: some View {
         NavigationStack {
@@ -29,7 +29,6 @@ struct SalaryView: View {
                     .ignoresSafeArea()
 
                 VStack(spacing: 0) {
-                    // Business picker + month selector
                     VStack(spacing: 12) {
                         BusinessPicker(businesses: Business.all, selected: $selectedBusinessId)
                         AppCard { MonthSelector(month: $month, year: $year) }
@@ -37,14 +36,17 @@ struct SalaryView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
 
-                    // Total card
                     GlassCard {
                         HStack {
-                            Image(systemName: "person.2.fill")
-                                .foregroundStyle(.purple)
-                            Text("Total Salaries")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(.primary)
+                            Image(systemName: "dollarsign.circle.fill").foregroundStyle(.green)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Total Revenue")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.primary)
+                                Text("HST Collected: \(Theme.currency(hstTotal))")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
                             Spacer()
                             Text(Theme.currency(total))
                                 .font(.headline.weight(.bold))
@@ -56,28 +58,26 @@ struct SalaryView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 12)
 
-                    // List
                     if entries.isEmpty {
                         Spacer()
-                        EmptyState(symbol: "person.badge.plus",
-                                   title: "No Salaries Yet",
-                                   caption: "Tap + to add your first salary entry")
+                        EmptyState(symbol: "dollarsign.circle",
+                                   title: "No Revenue Yet",
+                                   caption: "Tap + to add your first revenue entry")
                         Spacer()
                     } else {
                         List {
                             ForEach(entries) { entry in
-                                SalaryRowView(entry: entry)
+                                RevenueRowView(entry: entry)
                                     .listRowBackground(Color.clear)
                                     .listRowSeparator(.hidden)
                                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         Button(role: .destructive) {
                                             Haptics.impact(.medium)
-                                            store.delete(salary: entry, businessId: activeBizId, year: year, month: month)
+                                            store.delete(revenue: entry, businessId: activeBizId, year: year, month: month)
                                         } label: { Label("Delete", systemImage: "trash") }
 
                                         Button {
-                                            Haptics.impact(.light)
                                             editingEntry = entry
                                             showingAdd = true
                                         } label: { Label("Edit", systemImage: "pencil") }
@@ -85,11 +85,11 @@ struct SalaryView: View {
                                     }
                                     .swipeActions(edge: .leading) {
                                         Button {
-                                            Haptics.impact(.light)
                                             var copy = entry
                                             copy.id = UUID()
                                             copy.createdAt = Date()
-                                            store.upsert(salary: copy, businessId: activeBizId, year: year, month: month)
+                                            store.upsert(revenue: copy, businessId: activeBizId, year: year, month: month)
+                                            Haptics.impact(.light)
                                         } label: { Label("Duplicate", systemImage: "doc.on.doc") }
                                             .tint(.blue)
                                     }
@@ -102,12 +102,11 @@ struct SalaryView: View {
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)
                         .background(Color.clear)
-                        .refreshable { /* re-read */ }
                     }
                 }
             }
-            .navigationTitle("Salary")
-            .searchable(text: $searchText, prompt: "Search employees…")
+            .navigationTitle("Revenue")
+            .searchable(text: $searchText, prompt: "Search revenue…")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -115,17 +114,13 @@ struct SalaryView: View {
                         showingAdd = true
                         Haptics.impact(.medium)
                     } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title3)
+                        Image(systemName: "plus.circle.fill").font(.title3)
                     }
                 }
             }
             .sheet(isPresented: $showingAdd) {
-                AddSalaryView(
-                    existing: editingEntry,
-                    businessId: activeBizId
-                ) { entry in
-                    store.upsert(salary: entry, businessId: activeBizId, year: year, month: month)
+                AddRevenueView(existing: editingEntry, businessId: activeBizId) { entry in
+                    store.upsert(revenue: entry, businessId: activeBizId, year: year, month: month)
                     Haptics.success()
                 }
                 .environment(store)
@@ -134,41 +129,41 @@ struct SalaryView: View {
     }
 }
 
-private struct SalaryRowView: View {
-    let entry: SalaryEntry
-    private var payroll: PayrollResult { Payroll.calculate(hours: entry.hours, rate: entry.payRate, bonus: entry.bonus) }
+private struct RevenueRowView: View {
+    let entry: RevenueEntry
 
     var body: some View {
         GlassCard {
             HStack(spacing: 12) {
-                Image(systemName: "person.fill")
+                Image(systemName: entry.paid ? "checkmark.circle.fill" : "clock.fill")
                     .font(.title3)
-                    .foregroundStyle(.purple)
+                    .foregroundStyle(entry.paid ? .green : .orange)
                     .frame(width: 36, height: 36)
-                    .background(Color.purple.opacity(0.15))
+                    .background((entry.paid ? Color.green : Color.orange).opacity(0.15))
                     .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(entry.name)
+                    Text(entry.source)
                         .font(.headline)
                         .foregroundStyle(.primary)
-                    Text("\(entry.hours, specifier: "%.1f")h × \(Theme.currency(entry.payRate))/h")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    if let inv = entry.invoiceNumber {
+                        Text("Invoice: \(inv)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    if entry.hstCollected > 0 {
+                        Text("HST: \(Theme.currency(entry.hstCollected))")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(Theme.currency(payroll.gross))
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(.primary)
-                    Text("Net: \(Theme.currency(payroll.net))")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
+                Text(Theme.currency(entry.amount))
+                    .font(.headline.weight(.bold))
+                    .foregroundStyle(.primary)
             }
         }
     }
 }
-
