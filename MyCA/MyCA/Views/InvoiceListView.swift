@@ -22,9 +22,11 @@ struct InvoiceListView: View {
 
     private var filtered: [Invoice] {
         store.invoices.filter {
+            let invoiceYear = Calendar.current.component(.year, from: $0.date)
+            let invoiceMonth = Calendar.current.component(.month, from: $0.date)
             $0.businessId == activeBizId
-                && (year == nil || Calendar.current.component(.year, from: $0.date) == year!)
-                && (month == nil || Calendar.current.component(.month, from: $0.date) == month!)
+                && (year.map { invoiceYear == $0 } ?? true)
+                && (month.map { invoiceMonth == $0 } ?? true)
         }
     }
 

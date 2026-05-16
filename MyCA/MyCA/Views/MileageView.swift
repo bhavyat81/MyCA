@@ -19,9 +19,11 @@ struct MileageView: View {
 
     private var filteredEntries: [MileageEntry] {
         store.mileageEntries.filter {
+            let entryYear = Calendar.current.component(.year, from: $0.date)
+            let entryMonth = Calendar.current.component(.month, from: $0.date)
             $0.businessId == activeBizId
-                && (year == nil || Calendar.current.component(.year, from: $0.date) == year!)
-                && (month == nil || Calendar.current.component(.month, from: $0.date) == month!)
+                && (year.map { entryYear == $0 } ?? true)
+                && (month.map { entryMonth == $0 } ?? true)
         }
     }
 
