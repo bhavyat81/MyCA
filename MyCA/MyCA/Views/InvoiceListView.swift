@@ -21,12 +21,13 @@ struct InvoiceListView: View {
     }
 
     private var filtered: [Invoice] {
-        store.invoices.filter {
-            let invoiceYear = Calendar.current.component(.year, from: $0.date)
-            let invoiceMonth = Calendar.current.component(.month, from: $0.date)
-            $0.businessId == activeBizId
-                && (year.map { invoiceYear == $0 } ?? true)
-                && (month.map { invoiceMonth == $0 } ?? true)
+        store.invoices.filter { inv in
+            let invoiceYear = Calendar.current.component(.year, from: inv.date)
+            let invoiceMonth = Calendar.current.component(.month, from: inv.date)
+            let bizMatch = inv.businessId == activeBizId
+            let yearMatch = year.map { invoiceYear == $0 } ?? true
+            let monthMatch = month.map { invoiceMonth == $0 } ?? true
+            return bizMatch && yearMatch && monthMatch
         }
     }
     private var scopedMonthName: String? {
@@ -76,7 +77,7 @@ struct InvoiceListView: View {
                                             .font(.headline.weight(.bold)).foregroundStyle(.primary)
                                         Text(inv.paid ? "Paid" : "Unpaid")
                                             .font(.caption.weight(.semibold))
-                                            .foregroundStyle(inv.paid ? .green : .orange)
+                                            .foregroundStyle(inv.paid ? Color.green : Color.orange)
                                     }
                                 }
                             }
