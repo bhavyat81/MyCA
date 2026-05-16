@@ -72,6 +72,66 @@ struct BusinessListView: View {
     }
 }
 
+// MARK: - Global (app-wide) settings
+// Defined here (instead of a separate file) so it is picked up by the Xcode
+// project without needing a pbxproj edit.
+struct GlobalSettingsView: View {
+    @Environment(Store.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var showingResetConfirm = false
+
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: store.selectedTheme.gradientColors,
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
+
+            Form {
+                Section("Theme") {
+                    ForEach(AppTheme.allCases, id: \.self) { theme in
+                        Button {
+                            store.selectedTheme = theme
+                            store.saveSettings()
+                        } label: {
+                            HStack {
+                                Text(theme.emoji + " " + theme.displayName)
+                                Spacer()
+                                if store.selectedTheme == theme {
+                                    Image(systemName: "checkmark.circle.fill")
+                                }
+                            }
+                            .foregroundStyle(.primary)
+                        }
+                    }
+                }
+
+                Section("Data") {
+                    Button(role: .destructive) {
+                        showingResetConfirm = true
+                    } label: {
+                        Label("Reset All Data", systemImage: "trash.fill")
+                    }
+                }
+            }
+            .scrollContentBackground(.hidden)
+        }
+        .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Done") { dismiss() }
+            }
+        }
+        .confirmationDialog("Reset all data? This cannot be undone.",
+                            isPresented: $showingResetConfirm,
+                            titleVisibility: .visible) {
+            Button("Reset Everything", role: .destructive) {
+                store.resetAllData()
+                Haptics.warning()
+            }
+        }
+    }
+}
+
 #Preview {
     NavigationStack {
         BusinessListView()
