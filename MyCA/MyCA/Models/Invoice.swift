@@ -2,13 +2,15 @@ import Foundation
 
 struct InvoiceLine: Identifiable, Codable, Hashable {
     var id: UUID = UUID()
-    var description: String
+    /// Renamed from `description` to avoid clashing with `CustomStringConvertible.description`
+    /// which broke SwiftUI bindings (`$item.description` resolved to `String` instead of `Binding<String>`).
+    var detail: String
     var qty: Double
     var unitPrice: Double
     var lineTotal: Double { qty * unitPrice }
 
     private enum CodingKeys: String, CodingKey {
-        case id, description, qty, unitPrice
+        case id, detail, qty, unitPrice
     }
 }
 
